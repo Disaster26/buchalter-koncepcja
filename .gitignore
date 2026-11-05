@@ -1,1 +1,6 @@
-_src/
+_src/*
+!_src/build.py
+!_src/shots.py
+!_src/kafle.py
+!_src/badge.html
+__pycache__/
