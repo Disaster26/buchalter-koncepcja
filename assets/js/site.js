@@ -24,6 +24,7 @@
     new IntersectionObserver(function (w) {
       var pokaz = !w[0].isIntersecting && w[0].boundingClientRect.top < 0;
       mob.classList.toggle('widac', pokaz);
+      document.body.classList.toggle('po-hero', pokaz);
       mob.setAttribute('aria-hidden', pokaz ? 'false' : 'true');
       mob.querySelectorAll('a').forEach(function (a) { a.tabIndex = pokaz ? 0 : -1; });
     }).observe(cel);

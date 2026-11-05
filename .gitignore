@@ -3,4 +3,6 @@ _src/*
 !_src/shots.py
 !_src/kafle.py
 !_src/badge.html
+!_src/obrazy.py
+!_src/ZDJECIA.md
 __pycache__/
