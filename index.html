@@ -18,11 +18,12 @@
 <meta name="geo.region" content="PL-KP">
 <meta name="geo.placename" content="Chełmno">
 <link rel="icon" href="./assets/img/favicon.png">
-<link rel="preload" as="font" type="font/woff2" href="./assets/fonts/quicksand.woff2" crossorigin>
-<link rel="preload" as="font" type="font/woff2" href="./assets/fonts/poppins-400.woff2" crossorigin>
-<link rel="preload" as="image" href="./assets/img/biuro-kalkulator-900.webp" media="(max-width: 760px)">
-<link rel="preload" as="image" href="./assets/img/biuro-kalkulator-1600.webp" media="(min-width: 761px)">
-<link rel="stylesheet" href="./assets/css/style.css?v=1">
+<link rel="preload" as="font" type="font/woff2" href="./assets/fonts/sourceserif4-n-latin.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="./assets/fonts/ibmplexsans-n-latin.woff2" crossorigin>
+<link rel="preload" as="image" href="./assets/img/rynek-tel-900.webp" media="(max-width: 760px)">
+<link rel="preload" as="image" imagesrcset="./assets/img/rynek-1000.webp 1000w, ./assets/img/rynek-1600.webp 1600w, ./assets/img/rynek-2400.webp 2400w" imagesizes="100vw" media="(min-width: 761px)">
+<link rel="stylesheet" href="./assets/css/style.css?v=2">
+
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"AccountingService","@id":"https://buchalter.cloud/#biuro","name":"Biuro Rachunkowe Buchalter Wioletta Prełowska","legalName":"BIURO RACHUNKOWE \"BUCHALTER\" PREŁOWSKA WIOLETTA","alternateName":"Buchalter","url":"https://buchalter.cloud/","logo":"https://buchalter.cloud/assets/img/logo.png","image":"https://buchalter.cloud/assets/img/og-buchalter.jpg","telephone":"+48 56 691 20 80","email":"recepcja@buchalter.home.pl","taxID":"8751098647","identifier":[{"@type":"PropertyValue","propertyID":"REGON","value":"871183546"}],"foundingDate":"1999","founder":{"@type":"Person","name":"Wioletta Prełowska"},"address":{"@type":"PostalAddress","streetAddress":"ul. Rybacka 3 lok. 1","postalCode":"86-200","addressLocality":"Chełmno","addressRegion":"kujawsko-pomorskie","addressCountry":"PL"},"areaServed":[{"@type":"City","name":"Chełmno"},{"@type":"AdministrativeArea","name":"powiat chełmiński"}],"contactPoint":[{"@type":"ContactPoint","contactType":"customer service","name":"Recepcja","telephone":"+48 56 691 20 80","email":"recepcja@buchalter.home.pl","availableLanguage":"pl"},{"@type":"ContactPoint","contactType":"kadry i płace","telephone":"+48 56 691 20 85","email":"kadry@buchalter.home.pl","availableLanguage":"pl"}],"knowsAbout":["księgowość","księga przychodów i rozchodów","ryczałt ewidencjonowany","pełna księgowość","kadry i płace","rozliczenia podatkowe","zakładanie działalności gospodarczej"],"openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday"],"opens":"09:00","closes":"16:00"}],"sameAs":["https://www.facebook.com/profile.php?id=100063471177071"]}</script>
 </head>
 <body class="dom">
@@ -33,7 +34,7 @@
       <img src="./assets/img/logo.png" alt="" width="40" height="40">
       <span><b>Buchalter</b><small>Biuro Rachunkowe Wioletta Prełowska</small></span>
     </a>
-    <nav class="menu" id="menu" aria-label="Menu główne"><div class="menu-grupa"><a href="./oferta/">Oferta</a><div class="podmenu"><a href="./oferta/ksiegowosc/">Księgowość</a><a href="./oferta/kadry-i-place/">Kadry i płace</a><a href="./oferta/podatki/">Rozliczenia podatkowe</a><a href="./oferta/zakladanie-dzialalnosci/">Zakładanie działalności</a></div></div><a href="./jak-pracujemy/">Jak pracujemy</a><a href="./o-biurze/">O biurze</a><a href="./cennik/">Cennik</a><a href="./kontakt/">Kontakt</a><a class="menu-wycena" href="./kontakt/#formularz">Bezpłatna wycena</a></nav>
+    <nav class="menu" id="menu" aria-label="Menu główne"><div class="menu-grupa"><a href="./oferta/">Oferta</a><div class="podmenu"><a href="./oferta/ksiegowosc/">Księgowość</a><a href="./oferta/kadry-i-place/">Kadry i&nbsp;płace</a><a href="./oferta/podatki/">Rozliczenia podatkowe</a><a href="./oferta/zakladanie-dzialalnosci/">Zakładanie działalności</a></div></div><a href="./jak-pracujemy/">Jak pracujemy</a><a href="./o-biurze/">O&nbsp;biurze</a><a href="./cennik/">Cennik</a><a href="./kontakt/">Kontakt</a><a class="menu-wycena" href="./kontakt/#formularz">Bezpłatna wycena</a></nav>
     <a class="tel-top" href="tel:+48566912080" aria-label="Zadzwoń do biura: 56 691 20 80"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg><span>56 691 20 80</span></a>
     <button class="burger" id="burger" type="button" aria-label="Otwórz menu" aria-expanded="false" aria-controls="menu"><span></span><span></span><span></span></button>
   </div>
@@ -42,25 +43,27 @@
 <section class="hero">
   <figure class="hero-foto">
     <picture>
-      <source media="(max-width: 760px)" srcset="./assets/img/biuro-kalkulator-900.webp">
-      <img src="./assets/img/biuro-kalkulator-1600.webp" alt="Kalkulator, pióro i zestawienie finansowe na biurku" width="1600" height="942" fetchpriority="high">
+      <source media="(max-width: 760px)" srcset="./assets/img/rynek-tel-900.webp">
+      <img src="./assets/img/rynek-1600.webp" srcset="./assets/img/rynek-1000.webp 1000w, ./assets/img/rynek-1600.webp 1600w, ./assets/img/rynek-2400.webp 2400w" sizes="100vw" alt="Rynek w Chełmnie z renesansowym ratuszem, widok z góry" width="1600" height="1225" fetchpriority="high">
     </picture>
   </figure>
   <div class="hero-in">
-    <div class="wrap hero-txt">
-      <p class="adres">ul. Rybacka 3, Chełmno - czynne pon.-pt. 9:00-16:00</p>
-      <h1>Księgowość, kadry i podatki Twojej firmy w rzetelnych rękach</h1>
-      <p class="lead">Biuro rachunkowe w Chełmnie, działające od ponad 25 lat. Prowadzimy księgowość i kadry jednoosobowych firm, spółek, fundacji i stowarzyszeń z Chełmna i okolic.</p>
-      <div class="hero-cta" id="heroCta">
-        <a class="btn" href="./kontakt/#formularz">Bezpłatna wycena</a>
-        <a class="link-strz dol" href="#oferta">Zobacz ofertę</a>
+    <div class="wrap">
+      <div class="hero-karta">
+        <p class="adres">ul. Rybacka 3, Chełmno, pon.-pt. 9:00-16:00</p>
+        <h1>Biuro rachunkowe w&nbsp;Chełmnie od&nbsp;1999&nbsp;roku</h1>
+        <p class="lead">Księgowość, kadry i&nbsp;płace oraz podatki firm, fundacji i&nbsp;osób prywatnych. Dokumenty możesz przesyłać elektronicznie.</p>
+        <div class="hero-cta" id="heroCta">
+          <a class="btn" href="./kontakt/#formularz">Bezpłatna wycena</a>
+          <a class="link-strz dol" href="#oferta">Zobacz ofertę</a>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="dlaczego">
-  <div class="wrap">
+<section class="powody">
+  <div class="wrap powody-in">
     <h2>Kompetentna obsługa księgowa bez wysokich kosztów</h2>
     <div class="trzy">
       <div>
@@ -69,11 +72,11 @@
       </div>
       <div>
         <h3>Bezpiecznie</h3>
-        <p>Nasi księgowi mają kierunkowe wykształcenie i stale się szkolą, śledząc zmiany w przepisach. Na co dzień prowadzą różnorodne i złożone sprawy księgowe oraz kadrowe.</p>
+        <p>Nasi księgowi mają kierunkowe wykształcenie i&nbsp;stale się szkolą, śledząc zmiany w&nbsp;przepisach. Na co dzień prowadzą różnorodne i&nbsp;złożone sprawy księgowe oraz kadrowe.</p>
       </div>
       <div>
         <h3>Rozsądnie cenowo</h3>
-        <p>Wiedzę i doświadczenie zespołu dzielisz z innymi klientami biura. Dzięki temu masz rzetelną obsługę księgową bez kosztu zatrudniania własnej księgowej.</p>
+        <p>Wiedzę i&nbsp;doświadczenie zespołu dzielisz z&nbsp;innymi klientami biura. Dzięki temu masz rzetelną obsługę księgową bez kosztu zatrudniania własnej księgowej.</p>
       </div>
     </div>
   </div>
@@ -83,100 +86,110 @@
   <div class="wrap">
     <div class="sek-glowa">
       <h2>Co możemy dla Ciebie zrobić</h2>
-      <p>Obsługujemy jednoosobowe działalności, spółki, fundacje i stowarzyszenia, a także spółki-córki dużych firm. Pomagamy również osobom, które nie prowadzą działalności gospodarczej.</p>
+      <p>Obsługujemy jednoosobowe działalności, spółki, fundacje i&nbsp;stowarzyszenia, a&nbsp;także spółki-córki dużych firm. Pomagamy również osobom, które nie prowadzą działalności gospodarczej.</p>
     </div>
     <div class="uslugi">
-      <article>
-        <h3><a href="./oferta/ksiegowosc/">Księga przychodów i ryczałt</a></h3>
-        <p>Podatkowa księga przychodów i rozchodów albo ewidencja przychodów dla ryczałtowców, do tego ewidencja środków trwałych. Co miesiąc wiesz, ile i do kiedy zapłacić podatku i składek ZUS.</p>
-        <a class="link-strz" href="./oferta/ksiegowosc/">Księgowość dla firm</a>
+      <article class="usluga">
+        <h3><a href="./oferta/ksiegowosc/">Księga przychodów i&nbsp;ryczałt</a></h3>
+        <p>Podatkowa księga przychodów i&nbsp;rozchodów albo ewidencja przychodów dla ryczałtowców, do tego ewidencja środków trwałych. Co miesiąc wiesz, ile i&nbsp;do kiedy zapłacić podatku i&nbsp;składek ZUS.</p>
+        <span class="link-strz" aria-hidden="true">Księgowość dla firm</span>
       </article>
-      <article>
+      <article class="usluga">
         <h3><a href="./oferta/ksiegowosc/#pelna-ksiegowosc">Pełna księgowość</a></h3>
-        <p>Księgi rachunkowe spółek, fundacji i stowarzyszeń: plan kont, polityka rachunkowości, instrukcje obiegu dokumentów, sprawozdania finansowe i pomoc w ich publikacji.</p>
-        <a class="link-strz" href="./oferta/ksiegowosc/#pelna-ksiegowosc">Księgi rachunkowe</a>
+        <p>Księgi rachunkowe spółek, fundacji i&nbsp;stowarzyszeń: plan kont, polityka rachunkowości, instrukcje obiegu dokumentów, sprawozdania finansowe i&nbsp;pomoc w&nbsp;ich publikacji.</p>
+        <span class="link-strz" aria-hidden="true">Księgi rachunkowe</span>
       </article>
-      <article>
-        <h3><a href="./oferta/kadry-i-place/">Kadry i płace</a></h3>
-        <ul>
-          <li>umowy o pracę i zlecenia, świadectwa pracy</li>
-          <li>akta osobowe, badania lekarskie, szkolenia BHP</li>
-          <li>listy płac, ZUS, deklaracje PIT-11</li>
-        </ul>
-        <a class="link-strz" href="./oferta/kadry-i-place/">Obsługa kadrowo-płacowa</a>
+      <article class="usluga">
+        <h3><a href="./oferta/kadry-i-place/">Kadry i&nbsp;płace</a></h3>
+        <p>Umowy o&nbsp;pracę i&nbsp;zlecenia, świadectwa pracy, akta osobowe, terminy badań i&nbsp;szkoleń BHP, listy płac, ZUS i&nbsp;deklaracje PIT-11.</p>
+        <span class="link-strz" aria-hidden="true">Obsługa kadrowo-płacowa</span>
       </article>
-      <article>
+      <article class="usluga">
         <h3><a href="./oferta/podatki/">Rozliczenia podatkowe</a></h3>
-        <p>Ewidencja i rozliczenia podatkowe firm i osób prywatnych. Reprezentujemy podatników przed organami kontroli podatkowej.</p>
-        <a class="link-strz" href="./oferta/podatki/">Podatki i kontrole</a>
+        <p>Ewidencja i&nbsp;rozliczenia podatkowe firm i&nbsp;osób prywatnych. Reprezentujemy podatników przed organami kontroli podatkowej.</p>
+        <span class="link-strz" aria-hidden="true">Podatki i&nbsp;kontrole</span>
       </article>
-      <article>
+      <article class="usluga">
         <h3><a href="./oferta/zakladanie-dzialalnosci/">Zakładanie działalności</a></h3>
-        <p>Pomagamy wybrać formę działalności i opodatkowania, a potem załatwiamy formalności - także rejestrację spółki w KRS.</p>
-        <a class="link-strz" href="./oferta/zakladanie-dzialalnosci/">Start firmy</a>
+        <p>Pomagamy wybrać formę działalności i&nbsp;opodatkowania, a&nbsp;potem załatwiamy formalności - także rejestrację spółki w&nbsp;KRS.</p>
+        <span class="link-strz" aria-hidden="true">Start firmy</span>
       </article>
-      <article>
+      <article class="usluga">
         <h3><a href="./oferta/#wsparcie">Bieżące wsparcie</a></h3>
-        <p>Śledzimy zmiany w przepisach podatkowych i w prawie dotyczącym prowadzenia firmy. Informujemy klientów o tym, co ich dotyczy.</p>
-        <a class="link-strz" href="./oferta/">Cała oferta</a>
+        <p>Śledzimy zmiany w&nbsp;przepisach podatkowych i&nbsp;w&nbsp;prawie dotyczącym prowadzenia firmy. Informujemy klientów o&nbsp;tym, co ich dotyczy.</p>
+        <span class="link-strz" aria-hidden="true">Cała oferta</span>
       </article>
     </div>
   </div>
 </section>
 
-<section>
-  <div class="wrap dwie">
-    <figure class="foto"><img src="./assets/img/notatnik-1000.webp" srcset="./assets/img/notatnik-640.webp 640w, ./assets/img/notatnik-1000.webp 1000w" sizes="(max-width: 960px) 100vw, 560px" alt="Laptop, notatnik i okulary na biurku" width="1000" height="667" loading="lazy"></figure>
-    <div>
+<section class="wspolpraca">
+  <div class="wrap">
+    <div class="sek-glowa">
       <h2>Jak pracujemy</h2>
-      <p class="lead2">Wiemy, że w firmie liczy się czas. Dlatego jesteśmy do dyspozycji wtedy, kiedy nas potrzebujesz.</p>
-      <ul class="punkty">
-        <li><b>Szybkie odpowiedzi.</b> Niezwłocznie odpowiadamy na pytania i pomagamy, gdy trzeba coś wyjaśnić.</li>
-        <li><b>Dokumenty elektronicznie albo w biurze.</b> Faktury możesz przesyłać w wersji elektronicznej albo zostawić w recepcji przy Rybackiej.</li>
-        <li><b>Porządek w archiwum.</b> Zaksięgowane dokumenty archiwizujemy. W każdej chwili możesz je przejrzeć i skopiować w recepcji.</li>
-        <li><b>Działy według rodzaju klientów.</b> Każdy dział zajmuje się firmami o podobnej formie prawnej i sposobie rozliczeń.</li>
-      </ul>
-      <a class="link-strz po-liscie" href="./jak-pracujemy/">Jak zacząć współpracę i jakie dokumenty przygotować</a>
+      <p>Wiemy, że w&nbsp;firmie liczy się czas. Dlatego jesteśmy do dyspozycji wtedy, kiedy nas potrzebujesz. Tak dzielimy się pracą:</p>
     </div>
+    <table class="ksiega">
+      <caption class="sr">Podział pracy między klientem a&nbsp;biurem</caption>
+      <thead><tr><th scope="col">Po Twojej stronie</th><th scope="col">Po stronie biura</th></tr></thead>
+      <tbody>
+        <tr><td>Przesyłasz faktury elektronicznie albo zostawiasz je w&nbsp;recepcji przy Rybackiej.</td><td>Księgujemy dokumenty i&nbsp;odkładamy je do archiwum. W&nbsp;każdej chwili możesz je przejrzeć i&nbsp;skopiować w&nbsp;recepcji.</td></tr>
+        <tr><td>Pytasz, gdy coś trzeba wyjaśnić.</td><td>Odpowiadamy niezwłocznie i&nbsp;pomagamy rozwiązać sprawę.</td></tr>
+        <tr><td>Płacisz podatek i&nbsp;składki.</td><td>Co miesiąc podajemy wysokość i&nbsp;termin zapłaty podatków oraz składek ZUS.</td></tr>
+        <tr><td>Prowadzisz firmę.</td><td>Twoje sprawy prowadzi dział, który na co dzień rozlicza firmy o&nbsp;podobnej formie prawnej i&nbsp;sposobie rozliczeń.</td></tr>
+      </tbody>
+    </table>
+    <a class="link-strz po-liscie" href="./jak-pracujemy/">Jak zacząć współpracę i&nbsp;jakie dokumenty przygotować</a>
   </div>
 </section>
 
-<section class="niebieskie">
+<section class="wlascicielka">
   <div class="wrap dwie">
     <div class="ob-glowa">
-      <img src="./assets/img/logo.png" alt="" width="72" height="72" loading="lazy">
       <h2>Wioletta Prełowska</h2>
-      <p>Właścicielka Biura Rachunkowego Buchalter od 1999 roku. W rachunkowości pracuje od ponad 30 lat.</p>
+      <p>Właścicielka Biura Rachunkowego Buchalter od 1999 roku. W&nbsp;rachunkowości pracuje od ponad 30 lat.</p>
+      <a class="btn btn-jasny" href="./o-biurze/">Więcej o&nbsp;biurze</a>
     </div>
-    <div class="ob-tekst">
-      <p>Od 1999 roku ma świadectwo kwalifikacyjne uprawniające do usługowego prowadzenia ksiąg rachunkowych. Ukończyła wszystkie stopnie kursów Stowarzyszenia Księgowych w Polsce, a od 2018 roku jest sygnatariuszką Kodeksu Etyki Zawodowej w Rachunkowości.</p>
-      <p>Biuro jest podzielone na działy. Każdy z nich specjalizuje się w obsłudze klientów określonego typu, więc Twoją firmę prowadzą osoby, które na co dzień rozliczają podobne firmy.</p>
-      <a class="btn-out" href="./o-biurze/">Więcej o biurze</a>
-    </div>
+    <ul class="sciezka">
+      <li><span>1999</span><p>Świadectwo kwalifikacyjne uprawniające do usługowego prowadzenia ksiąg rachunkowych.</p></li>
+      <li><span>2001-2002</span><p>Wszystkie stopnie kursów Stowarzyszenia Księgowych w&nbsp;Polsce.</p></li>
+      <li><span>2018</span><p>Sygnatariuszka Kodeksu Etyki Zawodowej w&nbsp;Rachunkowości.</p></li>
+      <li><span>dziś</span><p>Biuro podzielone na działy, z&nbsp;których każdy obsługuje klientów określonego typu.</p></li>
+    </ul>
   </div>
 </section>
 
-<section>
-  <div class="wrap pasek-cennik">
+<section class="cennik-sek">
+  <div class="wrap dwie dwie-gora">
     <div>
       <h2>Cennik pakietów</h2>
-      <p>Księgi podatkowe, ryczałt, księgi handlowe oraz kadry i płace. Sprawdź, co obejmuje każdy pakiet - cenę ustalamy indywidualnie, a wycena jest bezpłatna.</p>
+      <p class="lead2">Cenę ustalamy indywidualnie. Zależy od formy działalności, liczby dokumentów w&nbsp;miesiącu i&nbsp;liczby pracowników.</p>
+      <a class="btn" href="./cennik/">Co obejmują pakiety</a>
     </div>
-    <a class="btn" href="./cennik/">Zobacz cennik</a>
+    <table class="rachunek">
+      <caption class="sr">Pakiety usług księgowych</caption>
+      <tbody>
+        <tr><th scope="row">Księgi podatkowe</th><td>wycena indywidualna</td></tr>
+        <tr><th scope="row">Ryczałt</th><td>wycena indywidualna</td></tr>
+        <tr><th scope="row">Księgi handlowe</th><td>wycena indywidualna</td></tr>
+        <tr><th scope="row">Kadry i&nbsp;płace</th><td>za osobę, indywidualnie</td></tr>
+      </tbody>
+      <tfoot><tr><th scope="row">Wycena</th><td>bezpłatna</td></tr></tfoot>
+    </table>
   </div>
 </section>
 
 <section class="kontakt-pas">
   <div class="wrap kontakt-pas-in">
     <div>
-      <h2>Biuro przy ul. Rybackiej 3 w Chełmnie</h2>
-      <p>Zadzwoń, napisz albo wpadnij do recepcji. Powiedz, jaką masz firmę, a przygotujemy bezpłatną wycenę.</p>
-      <a class="btn btn-jasny" href="./kontakt/#formularz">Napisz do biura</a>
+      <h2>Biuro przy ul. Rybackiej 3 w&nbsp;Chełmnie</h2>
+      <p>Zadzwoń, napisz albo wpadnij do recepcji. Powiedz, jaką masz firmę, a&nbsp;przygotujemy bezpłatną wycenę.</p>
+      <a class="btn" href="./kontakt/#formularz">Napisz do biura</a>
     </div>
-    <dl>
-      <div><dt>Recepcja</dt><dd><a href="tel:+48566912080">56 691 20 80</a><br><a href="mailto:recepcja@buchalter.home.pl">recepcja@buchalter.home.pl</a></dd></div>
-      <div><dt>Kadry i płace</dt><dd><a href="tel:+48566912085">56 691 20 85</a></dd></div>
-      <div><dt>Adres i godziny</dt><dd>ul. Rybacka 3, 86-200 Chełmno<br>pon.-pt. 9:00-16:00<br><a href="https://www.google.com/maps/dir/?api=1&amp;destination=Rybacka+3%2C+86-200+Che%C5%82mno" target="_blank" rel="noopener">Wyznacz trasę</a></dd></div>
+    <dl class="telefony">
+      <div><dt>Recepcja</dt><dd><a class="nr" href="tel:+48566912080">56 691 20 80</a><a href="mailto:recepcja@buchalter.home.pl">recepcja@buchalter.home.pl</a></dd></div>
+      <div><dt>Kadry i&nbsp;płace</dt><dd><a class="nr" href="tel:+48566912085">56 691 20 85</a><a href="mailto:kadry@buchalter.home.pl">kadry@buchalter.home.pl</a></dd></div>
+      <div><dt>Adres i&nbsp;godziny</dt><dd>ul. Rybacka 3, 86-200 Chełmno<br>pon.-pt. 9:00-16:00<br><a href="https://www.google.com/maps/dir/?api=1&amp;destination=Rybacka+3%2C+86-200+Che%C5%82mno" target="_blank" rel="noopener">Wyznacz trasę</a></dd></div>
     </dl>
   </div>
 </section>
@@ -191,15 +204,15 @@
     </div>
     <div>
       <h2>Oferta</h2>
-      <ul><li><a href="./oferta/ksiegowosc/">Księgowość</a></li><li><a href="./oferta/kadry-i-place/">Kadry i płace</a></li><li><a href="./oferta/podatki/">Rozliczenia podatkowe</a></li><li><a href="./oferta/zakladanie-dzialalnosci/">Zakładanie działalności</a></li><li><a href="./cennik/">Cennik</a></li></ul>
+      <ul><li><a href="./oferta/ksiegowosc/">Księgowość</a></li><li><a href="./oferta/kadry-i-place/">Kadry i&nbsp;płace</a></li><li><a href="./oferta/podatki/">Rozliczenia podatkowe</a></li><li><a href="./oferta/zakladanie-dzialalnosci/">Zakładanie działalności</a></li><li><a href="./cennik/">Cennik</a></li></ul>
     </div>
     <div>
       <h2>Biuro</h2>
-      <ul><li><a href="./jak-pracujemy/">Jak pracujemy</a></li><li><a href="./o-biurze/">O biurze</a></li><li><a href="./kontakt/">Kontakt i dojazd</a></li><li><a href="https://www.facebook.com/profile.php?id=100063471177071" rel="noopener" target="_blank">Facebook</a></li><li><a href="./polityka-prywatnosci/">Polityka prywatności</a></li></ul>
+      <ul><li><a href="./jak-pracujemy/">Jak pracujemy</a></li><li><a href="./o-biurze/">O&nbsp;biurze</a></li><li><a href="./kontakt/">Kontakt i&nbsp;dojazd</a></li><li><a href="https://www.facebook.com/profile.php?id=100063471177071" rel="noopener" target="_blank">Facebook</a></li><li><a href="./polityka-prywatnosci/">Polityka prywatności</a></li></ul>
     </div>
   </div>
   <div class="wrap stopka-dol">
-    <span>&copy; 2026 Biuro Rachunkowe Buchalter. Wersja testowa nowej strony, zdjęcia poglądowe.</span>
+    <span>&copy; 2026 Biuro Rachunkowe Buchalter. Wersja testowa nowej strony. Zdjęcie Rynku w&nbsp;Chełmnie: <a href="https://commons.wikimedia.org/wiki/File:Che%C5%82mno_Market_Square.jpg" rel="noopener" target="_blank">Margoz</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.pl" rel="noopener" target="_blank">CC BY-SA 4.0</a>; pozostałe zdjęcia poglądowe.</span>
     <a class="wylinka-badge" href="https://wylinka.pl/?utm_source=buchalter.cloud&amp;utm_medium=stopka&amp;utm_campaign=wykonanie" rel="noopener" title="Strona wykonana przez Wylinka"><svg viewBox="0 0 64 64" aria-hidden="true" focusable="false" fill="currentColor"><path d="M9.8 22.8l-1.2-7.9 2.2-3.7 15.5 4.6-.5 1.5-7.2 5.5 4.7 15.6 5-15.6 7 0 4.1 12.7-4.2-.9-2.6 1.8-.8-2.2-5.3 15.6-4.3 0 .4 .2-2.1 2.8-1.3-1.1 1.1-1.4-3.1 .2-.1-1.7 2.2-.1-5.7-16.5-4.8 .6-.8 3.1 0 .5-.3 .5 .8 2.2-1.6 .5-.4-1.3-.8 1.6-1.5-.8 .8-1.6-1.4 .6-.6-1.6 2.3-.8 .2-.4 1.3-4.8 5.9-.8-2.4-6.9zM15.2 13.7l-.1-.4-.4 .8-.1 .8 .1 1 .1 .4 .3 .7 .3-.9 .1-.7 0-.8z"/><path class="wy-pod" d="M37.1 49.8l-4.5-13.3 2.6-1.8 4.2 .9 .9 2.8 3-9.7 0-.5 .1-.8 3.2-8.4 .5-1 .6-1 .9-1.1 1.3-1 1.1-.7 1.4-.5 1.4-.3 .7 0 .9 0 1.2 .3 1.4 .6 .8 .5 .7 .7 .6 .7 .5 .9 .3 .9 .1 .9 0 .8-.2 .9-.5 .9-.5 .6-.7 .5-.7 .3-.1-.1 0-.1 .5-.5 .3-.7 .2-.5 0-.6-.1-.6-.3-.7-.4-.5-.4-.4-.5-.3-.6-.3-.7 0-.7 .1-.6 .1-.5 .4-.5 .5-.3 .5-.2 .7-.1 1.5-1.4 5.1-.8 3.3-.3 .7-.5 .7-6 17.5 1.9 .1-.1 1.7-3.1-.2 1.1 1.4-1.3 1.1-2.1-2.8 .4-.2z"/><path class="wy-old" d="M40.8 50l.4-.2-4.1 0-4.2-12.5 2.5-1.7 4.3 .9 .6 1.9 .6-1.6 0-.3 2.4-7.8 0-.5 .1-.8 3.2-8.4 .4-.8 .6-.9 .9-1.2 .9-.9 1.3-.8 1.4-.6 1.2-.3 1.4-.1 1.3 .1 .6 .2 .8 .3 1.1 .6 .9 .7 .7 .9 .5 .9 .3 .9 .1 1.1-.1 .9-.3 .9-.4 .7-.6 .7-.6 .4-.6 .2-.1-.1 0-.1 .5-.5 .3-.7 .2-.5 0-.5-.1-.6-.2-.6-.3-.5-.4-.5-.5-.3-.6-.3-.7-.1-.6 0-.6 .1-.6 .3-.6 .5-.3 .4-.2 .5-.1 .5-.1 1.5-1.4 5.1-.8 3.3-.3 .7-.5 .7-6 17.5 1.9 .1-.1 1.7-3.1-.2 1.1 1.4-1.3 1.1zM49.6 17.1l.6 1.7-1.5 1.9 .4 .4 1.8-2.1-.7-2.1zM48.1 28.3l.5 1.8-1.7 1.8 .4 .4 1.9-2-.6-2.2zM37.9 41.7l1.7-1.5-.4-.4-1.7 1.4zM42.6 38.7l-1.5 2.8 1.1 2-1.3 2.6 .5 .2 1.5-2.8-1.1-2 1.4-2.5z"/></svg><span>wykonanie: <b>Wylinka</b></span></a>
   </div>
 </footer>

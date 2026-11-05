@@ -2,11 +2,12 @@
 """Generator wersji testowej strony Biura Rachunkowego Buchalter (Chełmno).
 Uruchomienie: python _src/build.py  -> strony w katalogach obok (index.html), sitemap.xml, robots.txt, 404.html.
 Dane firmy wyłącznie z obecnej strony buchalter.cloud i umowy (CEIDG). Bez kwot w cenniku do czasu decyzji klientki."""
-import json, re
+import json, re, os
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 PROD = "https://buchalter.cloud/"      # docelowy adres (do potwierdzenia przez klientkę)
+KIER = os.environ.get("KIERUNEK", "")   # prototypy kierunkow: a / b / c
 TEST = True                            # wersja testowa: noindex + robots Disallow
 DZIS = "2026-11-05"
 BADGE = (Path(__file__).parent / "badge.html").read_text(encoding="utf-8").strip()
@@ -89,7 +90,7 @@ def stopka():
     </div>
   </div>
   <div class="wrap stopka-dol">
-    <span>&copy; 2026 Biuro Rachunkowe Buchalter. Wersja testowa nowej strony, zdjęcia poglądowe.</span>
+    <span>&copy; 2026 Biuro Rachunkowe Buchalter. Wersja testowa nowej strony. Zdjęcie Rynku w Chełmnie: <a href="https://commons.wikimedia.org/wiki/File:Che%C5%82mno_Market_Square.jpg" rel="noopener" target="_blank">Margoz</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.pl" rel="noopener" target="_blank">CC BY-SA 4.0</a>; pozostałe zdjęcia poglądowe.</span>
     {BADGE}
   </div>
 </footer>'''
@@ -111,8 +112,9 @@ def strona(path, title, desc, body, akt="", okruszki=None, schema_extra=None, ho
     ld_html = "".join(f'<script type="application/ld+json">{json.dumps(x, ensure_ascii=False, separators=(",", ":"))}</script>\n' for x in ld)
     robots = '<meta name="robots" content="noindex, nofollow">\n' if TEST or path == "404.html" else ""
     canon = f'<link rel="canonical" href="{url}">\n' if path != "404.html" else ""
-    preload = ('<link rel="preload" as="image" href="{R}assets/img/biuro-kalkulator-900.webp" media="(max-width: 760px)">\n'
-               '<link rel="preload" as="image" href="{R}assets/img/biuro-kalkulator-1600.webp" media="(min-width: 761px)">\n') if home else ""
+    preload = ('<link rel="preload" as="image" href="{R}assets/img/rynek-tel-900.webp" media="(max-width: 760px)">\n'
+               '<link rel="preload" as="image" imagesrcset="{R}assets/img/rynek-1000.webp 1000w, {R}assets/img/rynek-1600.webp 1600w, {R}assets/img/rynek-2400.webp 2400w" imagesizes="100vw" media="(min-width: 761px)">\n') if home else ""
+    kier_css = f'<link rel="stylesheet" href="{{R}}_src/kierunki/{KIER}.css">\n' if KIER and home else ""
     html = f'''<!doctype html>
 <html lang="pl">
 <head>
@@ -131,11 +133,12 @@ def strona(path, title, desc, body, akt="", okruszki=None, schema_extra=None, ho
 <meta name="geo.region" content="PL-KP">
 <meta name="geo.placename" content="Chełmno">
 <link rel="icon" href="{{R}}assets/img/favicon.png">
-<link rel="preload" as="font" type="font/woff2" href="{{R}}assets/fonts/quicksand.woff2" crossorigin>
-<link rel="preload" as="font" type="font/woff2" href="{{R}}assets/fonts/poppins-400.woff2" crossorigin>
-{preload}<link rel="stylesheet" href="{{R}}assets/css/style.css?v=1">
+<link rel="preload" as="font" type="font/woff2" href="{{R}}assets/fonts/sourceserif4-n-latin.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="{{R}}assets/fonts/ibmplexsans-n-latin.woff2" crossorigin>
+{preload}<link rel="stylesheet" href="{{R}}assets/css/style.css?v=2">
+{kier_css}
 {ld_html}</head>
-<body{' class="dom"' if home else ''}>
+<body class="{'dom' if home else 'pod'}{(' k-' + KIER) if KIER and home else ''}">
 <a class="skip" href="#tresc">Przejdź do treści</a>
 <header class="top">
   <div class="wrap top-in">
@@ -161,6 +164,9 @@ def strona(path, title, desc, body, akt="", okruszki=None, schema_extra=None, ho
 </html>
 '''
     html = html.replace("{R}", R(depth))
+    # sierotki: pojedyncze litery (w, i, z, o, a, u) sklejone z następnym słowem - tylko w treści body
+    gb = html.index("<body")
+    html = html[:gb] + re.sub(r">([^<]+)<", lambda m: ">" + re.sub(r"(?<![\w&;])([aiouwzAIOUWZ]) (?=\S)", lambda z: z.group(1) + "&nbsp;", m.group(1)) + "<", html[gb:])
     assert "—" not in html and "–" not in html, path
     out = ROOT / ("404.html" if path == "404.html" else path + "index.html")
     out.parent.mkdir(parents=True, exist_ok=True)
@@ -228,25 +234,27 @@ FAQ_LD = {'@context': 'https://schema.org', '@type': 'FAQPage', 'mainEntity': [{
 home = f'''<section class="hero">
   <figure class="hero-foto">
     <picture>
-      <source media="(max-width: 760px)" srcset="{{R}}assets/img/biuro-kalkulator-900.webp">
-      <img src="{{R}}assets/img/biuro-kalkulator-1600.webp" alt="Kalkulator, pióro i zestawienie finansowe na biurku" width="1600" height="942" fetchpriority="high">
+      <source media="(max-width: 760px)" srcset="{{R}}assets/img/rynek-tel-900.webp">
+      <img src="{{R}}assets/img/rynek-1600.webp" srcset="{{R}}assets/img/rynek-1000.webp 1000w, {{R}}assets/img/rynek-1600.webp 1600w, {{R}}assets/img/rynek-2400.webp 2400w" sizes="100vw" alt="Rynek w Chełmnie z renesansowym ratuszem, widok z góry" width="1600" height="1225" fetchpriority="high">
     </picture>
   </figure>
   <div class="hero-in">
-    <div class="wrap hero-txt">
-      <p class="adres">ul. Rybacka 3, Chełmno - czynne pon.-pt. 9:00-16:00</p>
-      <h1>Księgowość, kadry i podatki Twojej firmy w rzetelnych rękach</h1>
-      <p class="lead">Biuro rachunkowe w Chełmnie, działające od ponad 25 lat. Prowadzimy księgowość i kadry jednoosobowych firm, spółek, fundacji i stowarzyszeń z Chełmna i okolic.</p>
-      <div class="hero-cta" id="heroCta">
-        <a class="btn" href="{{R}}kontakt/#formularz">Bezpłatna wycena</a>
-        <a class="link-strz dol" href="#oferta">Zobacz ofertę</a>
+    <div class="wrap">
+      <div class="hero-karta">
+        <p class="adres">ul. Rybacka 3, Chełmno, pon.-pt. 9:00-16:00</p>
+        <h1>Biuro rachunkowe w&nbsp;Chełmnie od&nbsp;1999&nbsp;roku</h1>
+        <p class="lead">Księgowość, kadry i płace oraz podatki firm, fundacji i osób prywatnych. Dokumenty możesz przesyłać elektronicznie.</p>
+        <div class="hero-cta" id="heroCta">
+          <a class="btn" href="{{R}}kontakt/#formularz">Bezpłatna wycena</a>
+          <a class="link-strz dol" href="#oferta">Zobacz ofertę</a>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="dlaczego">
-  <div class="wrap">
+<section class="powody">
+  <div class="wrap powody-in">
     <h2>Kompetentna obsługa księgowa bez wysokich kosztów</h2>
     <div class="trzy">
       <div>
@@ -272,83 +280,93 @@ home = f'''<section class="hero">
       <p>Obsługujemy jednoosobowe działalności, spółki, fundacje i stowarzyszenia, a także spółki-córki dużych firm. Pomagamy również osobom, które nie prowadzą działalności gospodarczej.</p>
     </div>
     <div class="uslugi">
-      <article>
+      <article class="usluga">
         <h3><a href="{{R}}oferta/ksiegowosc/">Księga przychodów i ryczałt</a></h3>
         <p>Podatkowa księga przychodów i rozchodów albo ewidencja przychodów dla ryczałtowców, do tego ewidencja środków trwałych. Co miesiąc wiesz, ile i do kiedy zapłacić podatku i składek ZUS.</p>
-        <a class="link-strz" href="{{R}}oferta/ksiegowosc/">Księgowość dla firm</a>
+        <span class="link-strz" aria-hidden="true">Księgowość dla firm</span>
       </article>
-      <article>
+      <article class="usluga">
         <h3><a href="{{R}}oferta/ksiegowosc/#pelna-ksiegowosc">Pełna księgowość</a></h3>
         <p>Księgi rachunkowe spółek, fundacji i stowarzyszeń: plan kont, polityka rachunkowości, instrukcje obiegu dokumentów, sprawozdania finansowe i pomoc w ich publikacji.</p>
-        <a class="link-strz" href="{{R}}oferta/ksiegowosc/#pelna-ksiegowosc">Księgi rachunkowe</a>
+        <span class="link-strz" aria-hidden="true">Księgi rachunkowe</span>
       </article>
-      <article>
+      <article class="usluga">
         <h3><a href="{{R}}oferta/kadry-i-place/">Kadry i płace</a></h3>
-        <ul>
-          <li>umowy o pracę i zlecenia, świadectwa pracy</li>
-          <li>akta osobowe, badania lekarskie, szkolenia BHP</li>
-          <li>listy płac, ZUS, deklaracje PIT-11</li>
-        </ul>
-        <a class="link-strz" href="{{R}}oferta/kadry-i-place/">Obsługa kadrowo-płacowa</a>
+        <p>Umowy o pracę i zlecenia, świadectwa pracy, akta osobowe, terminy badań i szkoleń BHP, listy płac, ZUS i deklaracje PIT-11.</p>
+        <span class="link-strz" aria-hidden="true">Obsługa kadrowo-płacowa</span>
       </article>
-      <article>
+      <article class="usluga">
         <h3><a href="{{R}}oferta/podatki/">Rozliczenia podatkowe</a></h3>
         <p>Ewidencja i rozliczenia podatkowe firm i osób prywatnych. Reprezentujemy podatników przed organami kontroli podatkowej.</p>
-        <a class="link-strz" href="{{R}}oferta/podatki/">Podatki i kontrole</a>
+        <span class="link-strz" aria-hidden="true">Podatki i kontrole</span>
       </article>
-      <article>
+      <article class="usluga">
         <h3><a href="{{R}}oferta/zakladanie-dzialalnosci/">Zakładanie działalności</a></h3>
         <p>Pomagamy wybrać formę działalności i opodatkowania, a potem załatwiamy formalności - także rejestrację spółki w KRS.</p>
-        <a class="link-strz" href="{{R}}oferta/zakladanie-dzialalnosci/">Start firmy</a>
+        <span class="link-strz" aria-hidden="true">Start firmy</span>
       </article>
-      <article>
+      <article class="usluga">
         <h3><a href="{{R}}oferta/#wsparcie">Bieżące wsparcie</a></h3>
         <p>Śledzimy zmiany w przepisach podatkowych i w prawie dotyczącym prowadzenia firmy. Informujemy klientów o tym, co ich dotyczy.</p>
-        <a class="link-strz" href="{{R}}oferta/">Cała oferta</a>
+        <span class="link-strz" aria-hidden="true">Cała oferta</span>
       </article>
     </div>
   </div>
 </section>
 
-<section>
-  <div class="wrap dwie">
-    <figure class="foto"><img src="{{R}}assets/img/notatnik-1000.webp" srcset="{{R}}assets/img/notatnik-640.webp 640w, {{R}}assets/img/notatnik-1000.webp 1000w" sizes="(max-width: 960px) 100vw, 560px" alt="Laptop, notatnik i okulary na biurku" width="1000" height="667" loading="lazy"></figure>
-    <div>
+<section class="wspolpraca">
+  <div class="wrap">
+    <div class="sek-glowa">
       <h2>Jak pracujemy</h2>
-      <p class="lead2">Wiemy, że w firmie liczy się czas. Dlatego jesteśmy do dyspozycji wtedy, kiedy nas potrzebujesz.</p>
-      <ul class="punkty">
-        <li><b>Szybkie odpowiedzi.</b> Niezwłocznie odpowiadamy na pytania i pomagamy, gdy trzeba coś wyjaśnić.</li>
-        <li><b>Dokumenty elektronicznie albo w biurze.</b> Faktury możesz przesyłać w wersji elektronicznej albo zostawić w recepcji przy Rybackiej.</li>
-        <li><b>Porządek w archiwum.</b> Zaksięgowane dokumenty archiwizujemy. W każdej chwili możesz je przejrzeć i skopiować w recepcji.</li>
-        <li><b>Działy według rodzaju klientów.</b> Każdy dział zajmuje się firmami o podobnej formie prawnej i sposobie rozliczeń.</li>
-      </ul>
-      <a class="link-strz po-liscie" href="{{R}}jak-pracujemy/">Jak zacząć współpracę i jakie dokumenty przygotować</a>
+      <p>Wiemy, że w firmie liczy się czas. Dlatego jesteśmy do dyspozycji wtedy, kiedy nas potrzebujesz. Tak dzielimy się pracą:</p>
     </div>
+    <table class="ksiega">
+      <caption class="sr">Podział pracy między klientem a biurem</caption>
+      <thead><tr><th scope="col">Po Twojej stronie</th><th scope="col">Po stronie biura</th></tr></thead>
+      <tbody>
+        <tr><td>Przesyłasz faktury elektronicznie albo zostawiasz je w recepcji przy Rybackiej.</td><td>Księgujemy dokumenty i odkładamy je do archiwum. W każdej chwili możesz je przejrzeć i skopiować w recepcji.</td></tr>
+        <tr><td>Pytasz, gdy coś trzeba wyjaśnić.</td><td>Odpowiadamy niezwłocznie i pomagamy rozwiązać sprawę.</td></tr>
+        <tr><td>Płacisz podatek i składki.</td><td>Co miesiąc podajemy wysokość i termin zapłaty podatków oraz składek ZUS.</td></tr>
+        <tr><td>Prowadzisz firmę.</td><td>Twoje sprawy prowadzi dział, który na co dzień rozlicza firmy o podobnej formie prawnej i sposobie rozliczeń.</td></tr>
+      </tbody>
+    </table>
+    <a class="link-strz po-liscie" href="{{R}}jak-pracujemy/">Jak zacząć współpracę i jakie dokumenty przygotować</a>
   </div>
 </section>
 
-<section class="niebieskie">
+<section class="wlascicielka">
   <div class="wrap dwie">
     <div class="ob-glowa">
-      <img src="{{R}}assets/img/logo.png" alt="" width="72" height="72" loading="lazy">
       <h2>Wioletta Prełowska</h2>
       <p>Właścicielka Biura Rachunkowego Buchalter od 1999 roku. W rachunkowości pracuje od ponad 30 lat.</p>
+      <a class="btn btn-jasny" href="{{R}}o-biurze/">Więcej o biurze</a>
     </div>
-    <div class="ob-tekst">
-      <p>Od 1999 roku ma świadectwo kwalifikacyjne uprawniające do usługowego prowadzenia ksiąg rachunkowych. Ukończyła wszystkie stopnie kursów Stowarzyszenia Księgowych w Polsce, a od 2018 roku jest sygnatariuszką Kodeksu Etyki Zawodowej w Rachunkowości.</p>
-      <p>Biuro jest podzielone na działy. Każdy z nich specjalizuje się w obsłudze klientów określonego typu, więc Twoją firmę prowadzą osoby, które na co dzień rozliczają podobne firmy.</p>
-      <a class="btn-out" href="{{R}}o-biurze/">Więcej o biurze</a>
-    </div>
+    <ul class="sciezka">
+      <li><span>1999</span><p>Świadectwo kwalifikacyjne uprawniające do usługowego prowadzenia ksiąg rachunkowych.</p></li>
+      <li><span>2001-2002</span><p>Wszystkie stopnie kursów Stowarzyszenia Księgowych w Polsce.</p></li>
+      <li><span>2018</span><p>Sygnatariuszka Kodeksu Etyki Zawodowej w Rachunkowości.</p></li>
+      <li><span>dziś</span><p>Biuro podzielone na działy, z których każdy obsługuje klientów określonego typu.</p></li>
+    </ul>
   </div>
 </section>
 
-<section>
-  <div class="wrap pasek-cennik">
+<section class="cennik-sek">
+  <div class="wrap dwie dwie-gora">
     <div>
       <h2>Cennik pakietów</h2>
-      <p>Księgi podatkowe, ryczałt, księgi handlowe oraz kadry i płace. Sprawdź, co obejmuje każdy pakiet - cenę ustalamy indywidualnie, a wycena jest bezpłatna.</p>
+      <p class="lead2">Cenę ustalamy indywidualnie. Zależy od formy działalności, liczby dokumentów w miesiącu i liczby pracowników.</p>
+      <a class="btn" href="{{R}}cennik/">Co obejmują pakiety</a>
     </div>
-    <a class="btn" href="{{R}}cennik/">Zobacz cennik</a>
+    <table class="rachunek">
+      <caption class="sr">Pakiety usług księgowych</caption>
+      <tbody>
+        <tr><th scope="row">Księgi podatkowe</th><td>wycena indywidualna</td></tr>
+        <tr><th scope="row">Ryczałt</th><td>wycena indywidualna</td></tr>
+        <tr><th scope="row">Księgi handlowe</th><td>wycena indywidualna</td></tr>
+        <tr><th scope="row">Kadry i płace</th><td>za osobę, indywidualnie</td></tr>
+      </tbody>
+      <tfoot><tr><th scope="row">Wycena</th><td>bezpłatna</td></tr></tfoot>
+    </table>
   </div>
 </section>
 
@@ -357,15 +375,16 @@ home = f'''<section class="hero">
     <div>
       <h2>Biuro przy ul. Rybackiej 3 w Chełmnie</h2>
       <p>Zadzwoń, napisz albo wpadnij do recepcji. Powiedz, jaką masz firmę, a przygotujemy bezpłatną wycenę.</p>
-      <a class="btn btn-jasny" href="{{R}}kontakt/#formularz">Napisz do biura</a>
+      <a class="btn" href="{{R}}kontakt/#formularz">Napisz do biura</a>
     </div>
-    <dl>
-      <div><dt>Recepcja</dt><dd><a href="tel:{TEL_H}">{TEL}</a><br><a href="mailto:{MAIL}">{MAIL}</a></dd></div>
-      <div><dt>Kadry i płace</dt><dd><a href="tel:{TEL_K_H}">{TEL_K}</a></dd></div>
+    <dl class="telefony">
+      <div><dt>Recepcja</dt><dd><a class="nr" href="tel:{TEL_H}">{TEL}</a><a href="mailto:{MAIL}">{MAIL}</a></dd></div>
+      <div><dt>Kadry i płace</dt><dd><a class="nr" href="tel:{TEL_K_H}">{TEL_K}</a><a href="mailto:{MAIL_K}">{MAIL_K}</a></dd></div>
       <div><dt>Adres i godziny</dt><dd>ul. Rybacka 3, 86-200 Chełmno<br>pon.-pt. 9:00-16:00<br><a href="{TRASA}" target="_blank" rel="noopener">Wyznacz trasę</a></dd></div>
     </dl>
   </div>
 </section>'''
+
 strony.append(strona("", "Biuro rachunkowe Chełmno - Buchalter, Wioletta Prełowska",
                      "Biuro Rachunkowe Buchalter w Chełmnie, ul. Rybacka 3. Księga przychodów, ryczałt, pełna księgowość, kadry i płace, podatki, zakładanie firmy. Tel. 56 691 20 80.",
                      home, home=True))
@@ -376,34 +395,34 @@ of_body = glowa("Oferta biura rachunkowego w Chełmnie",
                 [("Oferta", "oferta/")]) + f'''
 <section>
   <div class="wrap">
-    <div class="uslugi">
-      <article>
-        <h2 class="h3"><a href="{{R}}oferta/ksiegowosc/">Księgowość</a></h2>
+    <div class="uslugi uslugi-pod">
+      <article class="usluga">
+        <h2><a href="{{R}}oferta/ksiegowosc/">Księgowość</a></h2>
         <p>Podatkowa księga przychodów i rozchodów, ewidencja przychodów (ryczałt) i pełne księgi rachunkowe. Do tego ewidencja środków trwałych, sprawozdania finansowe i statystyczne dla GUS.</p>
-        <a class="link-strz" href="{{R}}oferta/ksiegowosc/">Szczegóły</a>
+        <span class="link-strz" aria-hidden="true">Szczegóły</span>
       </article>
-      <article>
-        <h2 class="h3"><a href="{{R}}oferta/kadry-i-place/">Kadry i płace</a></h2>
+      <article class="usluga">
+        <h2><a href="{{R}}oferta/kadry-i-place/">Kadry i płace</a></h2>
         <p>Umowy, akta osobowe, terminy badań i szkoleń BHP, listy płac, rozliczenia ZUS i deklaracje PIT-11. Przejmujemy obowiązki kadrowo-płacowe pracodawcy.</p>
-        <a class="link-strz" href="{{R}}oferta/kadry-i-place/">Szczegóły</a>
+        <span class="link-strz" aria-hidden="true">Szczegóły</span>
       </article>
-      <article>
-        <h2 class="h3"><a href="{{R}}oferta/podatki/">Rozliczenia podatkowe</a></h2>
+      <article class="usluga">
+        <h2><a href="{{R}}oferta/podatki/">Rozliczenia podatkowe</a></h2>
         <p>Ewidencja i rozliczenia podatkowe firm, mikrofirm i osób prywatnych. Reprezentacja przed organami kontroli podatkowej.</p>
-        <a class="link-strz" href="{{R}}oferta/podatki/">Szczegóły</a>
+        <span class="link-strz" aria-hidden="true">Szczegóły</span>
       </article>
-      <article>
-        <h2 class="h3"><a href="{{R}}oferta/zakladanie-dzialalnosci/">Zakładanie działalności</a></h2>
+      <article class="usluga">
+        <h2><a href="{{R}}oferta/zakladanie-dzialalnosci/">Zakładanie działalności</a></h2>
         <p>Wybór formy działalności i opodatkowania, formalności rejestracyjne, rejestracja spółki w KRS.</p>
-        <a class="link-strz" href="{{R}}oferta/zakladanie-dzialalnosci/">Szczegóły</a>
+        <span class="link-strz" aria-hidden="true">Szczegóły</span>
       </article>
-      <article>
-        <h2 class="h3"><a href="{{R}}cennik/">Cennik pakietów</a></h2>
+      <article class="usluga">
+        <h2><a href="{{R}}cennik/">Cennik pakietów</a></h2>
         <p>Co obejmują pakiety: księgi podatkowe, ryczałt, księgi handlowe oraz kadry i płace.</p>
-        <a class="link-strz" href="{{R}}cennik/">Zobacz cennik</a>
+        <span class="link-strz" aria-hidden="true">Zobacz cennik</span>
       </article>
-      <article id="wsparcie">
-        <h2 class="h3">Bieżące wsparcie w prowadzeniu firmy</h2>
+      <article class="usluga" id="wsparcie">
+        <h2>Bieżące wsparcie w prowadzeniu firmy</h2>
         <p>Monitorujemy zmiany w przepisach podatkowych i innych przepisach dotyczących prowadzenia działalności. Informujemy klientów o zmianach, które ich dotyczą, i podpowiadamy, co z nich wynika dla firmy.</p>
       </article>
     </div>
@@ -416,28 +435,13 @@ of_body = glowa("Oferta biura rachunkowego w Chełmnie",
       <h2>Dla kogo pracujemy</h2>
       <p>Każdy dział biura zajmuje się klientami o podobnej formie prawnej i sposobie rozliczeń. Tak wygląda to w praktyce:</p>
     </div>
-    <div class="uslugi">
-      <article>
-        <h3>Jednoosobowa działalność</h3>
-        <p>Księga przychodów i rozchodów albo ryczałt, środki trwałe, miesięczna informacja o podatku i składkach ZUS. Jeśli zatrudniasz - także kadry i płace.</p>
-      </article>
-      <article>
-        <h3>Spółki</h3>
-        <p>Pełne księgi rachunkowe, polityka rachunkowości, plan kont, sprawozdania finansowe i ich publikacja. Obsługujemy również spółki-córki większych firm.</p>
-      </article>
-      <article>
-        <h3>Fundacje i stowarzyszenia</h3>
-        <p>Księgi rachunkowe organizacji, instrukcje obiegu dokumentów i sprawozdania finansowe.</p>
-      </article>
-      <article>
-        <h3>Osoby prywatne</h3>
-        <p>Rozliczenia podatkowe osób, które nie prowadzą działalności gospodarczej.</p>
-      </article>
-      <article>
-        <h3>Nowe firmy</h3>
-        <p>Pomoc w wyborze formy działalności i opodatkowania oraz formalności przy rejestracji.</p>
-      </article>
-    </div>
+    <ul class="dla-kogo">
+      <li><h3>Jednoosobowa działalność</h3><p>Księga przychodów i rozchodów albo ryczałt, środki trwałe, miesięczna informacja o podatku i składkach ZUS. Jeśli zatrudniasz - także kadry i płace.</p></li>
+      <li><h3>Spółki</h3><p>Pełne księgi rachunkowe, polityka rachunkowości, plan kont, sprawozdania finansowe i ich publikacja. Obsługujemy również spółki-córki większych firm.</p></li>
+      <li><h3>Fundacje i stowarzyszenia</h3><p>Księgi rachunkowe organizacji, instrukcje obiegu dokumentów i sprawozdania finansowe.</p></li>
+      <li><h3>Osoby prywatne</h3><p>Rozliczenia podatkowe osób, które nie prowadzą działalności gospodarczej.</p></li>
+      <li><h3>Nowe firmy</h3><p>Pomoc w wyborze formy działalności i opodatkowania oraz formalności przy rejestracji.</p></li>
+    </ul>
   </div>
 </section>'''
 strony.append(strona("oferta/", "Oferta - biuro rachunkowe Chełmno | Buchalter",
@@ -497,7 +501,7 @@ strony.append(usluga("oferta/kadry-i-place/", "Kadry i płace",
 <p>Pakiet kadry i płace wyceniamy za każdą zatrudnioną osobę. Szczegóły znajdziesz w <a href="{R}cennik/">cenniku</a>, a dokładną kwotę podamy po krótkiej rozmowie o liczbie pracowników i rodzajach umów.</p>
 <p class="ramka">Dział kadr ma osobny numer: <a href="tel:+48566912085">56 691 20 85</a>, e-mail <a href="mailto:kadry@buchalter.home.pl">kadry@buchalter.home.pl</a>.</p>''',
     "Kadry i płace",
-    '<small style="margin-top:12px">dział kadr: <a href="tel:+48566912085">56 691 20 85</a></small>'))
+    '<small class="kadry">dział kadr: <a href="tel:+48566912085">56 691 20 85</a></small>'))
 
 # ---------------------------------------------------------------- PODATKI
 strony.append(usluga("oferta/podatki/", "Rozliczenia podatkowe",
@@ -544,7 +548,7 @@ jp = glowa("Jak pracujemy",
 <section>
   <div class="wrap dwie">
     <div>
-      <ul class="punkty" style="margin-top:0">
+      <ul class="punkty">
         <li><b>Odpowiadamy szybko.</b> Na pytania odpowiadamy niezwłocznie i pomagamy, gdy trzeba coś pilnie wyjaśnić.</li>
         <li><b>Dokumenty w wygodnej formie.</b> Faktury i inne dokumenty możesz przesyłać elektronicznie albo zostawić w recepcji przy ul. Rybackiej 3.</li>
         <li><b>Księgujemy i archiwizujemy.</b> Po otrzymaniu dokumentów księgujemy je i odkładamy do archiwum. Zawsze możesz je przejrzeć i skopiować w recepcji.</li>
@@ -558,28 +562,28 @@ jp = glowa("Jak pracujemy",
 </section>
 
 <section class="szare" id="jak-zaczac">
-  <div class="wrap dwie" style="align-items:start">
+  <div class="wrap dwie dwie-gora">
     <div>
       <h2>Jak zacząć współpracę</h2>
       <p class="lead2">Najprościej zadzwonić do recepcji pod numer <a href="tel:{TEL_H}">{TEL}</a> albo napisać przez <a href="{{R}}kontakt/#formularz">formularz</a>.</p>
-      <p style="margin-top:16px">Zapytamy o formę działalności, sposób opodatkowania, przybliżoną liczbę dokumentów w miesiącu i to, czy zatrudniasz pracowników. Na tej podstawie przygotujemy bezpłatną wycenę. Jeśli ją zaakceptujesz, podpisujemy umowę i ustalamy, od którego miesiąca przejmujemy księgowość oraz w jaki sposób będziesz przekazywać dokumenty.</p>
+      <p class="odst">Zapytamy o formę działalności, sposób opodatkowania, przybliżoną liczbę dokumentów w miesiącu i to, czy zatrudniasz pracowników. Na tej podstawie przygotujemy bezpłatną wycenę. Jeśli ją zaakceptujesz, podpisujemy umowę i ustalamy, od którego miesiąca przejmujemy księgowość oraz w jaki sposób będziesz przekazywać dokumenty.</p>
     </div>
     <div>
       <h2>Jakie dokumenty przygotować</h2>
-      <p style="margin-top:16px">Przy przejściu do nas z innego biura albo od własnej księgowości zwykle przydają się:</p>
-      <ul class="punkty">
+      <p class="odst">Przy przejściu do nas z innego biura albo od własnej księgowości zwykle przydają się:</p>
+      <ul class="punkty punkty-dok">
         <li>dane firmy: NIP, REGON, a w przypadku spółki numer KRS i umowa spółki,</li>
         <li>informacja o formie opodatkowania i o tym, czy firma jest czynnym podatnikiem VAT,</li>
         <li>księgi lub ewidencje i deklaracje za bieżący rok oraz wykaz środków trwałych,</li>
         <li>przy zatrudnieniu: akta osobowe, umowy i dokumenty płacowe pracowników.</li>
       </ul>
-      <p style="margin-top:16px">Nie musisz mieć wszystkiego od razu - dokładną listę ustalimy przy pierwszej rozmowie.</p>
+      <p class="odst">Nie musisz mieć wszystkiego od razu - dokładną listę ustalimy przy pierwszej rozmowie.</p>
     </div>
   </div>
 </section>
 
 <section id="pytania">
-  <div class="wrap dwie" style="align-items:start">
+  <div class="wrap dwie dwie-gora">
     <div>
       <h2>Najczęstsze pytania</h2>
       <p class="lead2">Nie ma tu odpowiedzi na Twoje pytanie? Zadzwoń do recepcji: <a href="tel:{TEL_H}">{TEL}</a>.</p>
@@ -596,7 +600,7 @@ ob = glowa("O biurze",
            "Biuro Rachunkowe Buchalter działa w Chełmnie od 1999 roku. Obsługujemy firmy, organizacje i osoby prywatne z Chełmna i okolic.",
            [("O biurze", "o-biurze/")]) + '''
 <section>
-  <div class="wrap dwie" style="align-items:start">
+  <div class="wrap dwie dwie-gora">
     <div class="tresc">
       <h2>Biuro podzielone na działy</h2>
       <p>Potrzebujesz pewności, że księgowość Twojej firmy jest prowadzona prawidłowo. Dlatego biuro jest podzielone na działy, z których każdy specjalizuje się w obsłudze klientów określonego typu: z podobnych branż, o tej samej formie prawnej i sposobie rozliczeń.</p>
@@ -606,7 +610,7 @@ ob = glowa("O biurze",
     <div class="tresc">
       <h2>Wioletta Prełowska</h2>
       <p>Właścicielka Biura Rachunkowego Buchalter od 1999 roku. W rachunkowości pracuje od ponad 30 lat.</p>
-      <ul class="sciezka" style="padding:0;margin-top:20px">
+      <ul class="sciezka sciezka-jasna">
         <li><span>od 1995</span><p>Pierwsze doświadczenia zawodowe na stanowiskach księgowej i samodzielnej księgowej.</p></li>
         <li><span>1999</span><p>Świadectwo kwalifikacyjne uprawniające do usługowego prowadzenia ksiąg rachunkowych.</p></li>
         <li><span>2001-2002</span><p>Ukończone wszystkie stopnie kursów księgowych prowadzonych przez Stowarzyszenie Księgowych w Polsce.</p></li>
@@ -673,8 +677,8 @@ kt = glowa("Kontakt z biurem",
   <div class="wrap kontakt-in">
     <div>
       <dl class="dane">
-        <div><dt>Recepcja</dt><dd><a href="tel:{TEL_H}">{TEL}</a><br><a href="mailto:{MAIL}">{MAIL}</a></dd></div>
-        <div><dt>Kadry i płace</dt><dd><a href="tel:{TEL_K_H}">{TEL_K}</a><br><a href="mailto:{MAIL_K}">{MAIL_K}</a></dd></div>
+        <div><dt>Recepcja</dt><dd><a class="nr" href="tel:{TEL_H}">{TEL}</a><a href="mailto:{MAIL}">{MAIL}</a></dd></div>
+        <div><dt>Kadry i płace</dt><dd><a class="nr" href="tel:{TEL_K_H}">{TEL_K}</a><a href="mailto:{MAIL_K}">{MAIL_K}</a></dd></div>
         <div><dt>Adres biura</dt><dd>ul. Rybacka 3 lok. 1<br>86-200 Chełmno<br><a href="{TRASA}" target="_blank" rel="noopener">Wyznacz trasę w Mapach Google</a></dd></div>
         <div><dt>Godziny pracy</dt><dd>poniedziałek - piątek: 9:00-16:00<br>sobota, niedziela: nieczynne</dd></div>
         <div><dt>Dane firmy</dt><dd>Biuro Rachunkowe „Buchalter” Prełowska Wioletta<br>NIP 875-109-86-47<br>REGON 871183546</dd></div>
@@ -710,7 +714,7 @@ pp = glowa("Polityka prywatności",
            [("Polityka prywatności", "polityka-prywatnosci/")]) + f'''
 <section>
   <div class="wrap">
-    <div class="tresc" style="max-width:780px">
+    <div class="tresc">
       <h2>Administrator danych</h2>
       <p>Administratorem danych osobowych jest Wioletta Prełowska, prowadząca działalność gospodarczą pod firmą BIURO RACHUNKOWE "BUCHALTER" PREŁOWSKA WIOLETTA, ul. Rybacka 3 lok. 1, 86-200 Chełmno, NIP 875-109-86-47, REGON 871183546. Kontakt w sprawie danych: <a href="mailto:{MAIL}">{MAIL}</a>, tel. <a href="tel:{TEL_H}">{TEL}</a>.</p>
       <h2>Jakie dane i po co</h2>
@@ -724,7 +728,7 @@ pp = glowa("Polityka prywatności",
       <p>Masz prawo do dostępu do swoich danych, ich sprostowania, usunięcia lub ograniczenia przetwarzania, wniesienia sprzeciwu oraz przenoszenia danych. Masz też prawo wnieść skargę do Prezesa Urzędu Ochrony Danych Osobowych (ul. Stawki 2, 00-193 Warszawa). Podanie danych jest dobrowolne, ale bez danych kontaktowych nie odpowiemy na wiadomość.</p>
       <h2>Pliki cookie i usługi zewnętrzne</h2>
       <p>Strona nie używa plików cookie do statystyk ani reklam i nie śledzi odwiedzających. Czcionki są wczytywane z naszego serwera. Mapa Google na stronie kontaktowej wczytuje się dopiero po kliknięciu przycisku "Pokaż mapę" - wtedy Google może zapisać swoje pliki cookie zgodnie z <a href="https://policies.google.com/privacy?hl=pl" rel="noopener" target="_blank">polityką prywatności Google</a>. Link do profilu na Facebooku prowadzi do serwisu Meta, który stosuje własne zasady.</p>
-      <p style="color:var(--mut);font-size:.9rem">Ostatnia aktualizacja: 5 listopada 2026 r.</p>
+      <p class="drobny">Ostatnia aktualizacja: 5 listopada 2026 r.</p>
     </div>
   </div>
 </section>'''
