@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Generator wersji testowej strony Biura Rachunkowego Buchalter (Chełmno).
 Uruchomienie: python _src/build.py  -> strony w katalogach obok (index.html), sitemap.xml, robots.txt, 404.html.
-Dane firmy wyłącznie z obecnej strony buchalter.cloud i umowy (CEIDG). Bez kwot w cenniku do czasu decyzji klientki."""
+Dane firmy wyłącznie z obecnej strony buchalter.cloud i umowy (CEIDG). Ceny "od" i teksty wg maila klientki z 10.11.2026."""
 import json, re, os
 from pathlib import Path
 
@@ -9,7 +9,7 @@ ROOT = Path(__file__).resolve().parent.parent
 PROD = "https://buchalter.cloud/"      # docelowy adres (do potwierdzenia przez klientkę)
 KIER = os.environ.get("KIERUNEK", "")   # prototypy kierunkow: a / b / c
 TEST = True                            # wersja testowa: noindex + robots Disallow
-DZIS = "2026-11-05"
+DZIS = "2026-11-12"
 BADGE = (Path(__file__).parent / "badge.html").read_text(encoding="utf-8").strip()
 
 TEL = "56 691 20 80"; TEL_H = "+48566912080"
@@ -58,7 +58,7 @@ ORG = {
         {"@type": "ContactPoint", "contactType": "customer service", "name": "Recepcja", "telephone": "+48 56 691 20 80", "email": MAIL, "availableLanguage": "pl"},
         {"@type": "ContactPoint", "contactType": "kadry i płace", "telephone": "+48 56 691 20 85", "email": MAIL_K, "availableLanguage": "pl"},
     ],
-    "knowsAbout": ["księgowość", "księga przychodów i rozchodów", "ryczałt ewidencjonowany", "pełna księgowość", "kadry i płace", "rozliczenia podatkowe", "zakładanie działalności gospodarczej"],
+    "knowsAbout": ["KSeF", "ewidencja VAT", "JPK_VAT", "księgowość", "księga przychodów i rozchodów", "ryczałt ewidencjonowany", "pełna księgowość", "kadry i płace", "rozliczenia podatkowe", "zakładanie działalności gospodarczej"],
     "openingHoursSpecification": [{"@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], "opens": "09:00", "closes": "16:00"}],
     "sameAs": [FB],
 }
@@ -143,7 +143,7 @@ def strona(path, title, desc, body, akt="", okruszki=None, schema_extra=None, ho
 <link rel="icon" href="{{R}}assets/img/favicon.png">
 <link rel="preload" as="font" type="font/woff2" href="{{R}}assets/fonts/newsreader-n-latin.woff2" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="{{R}}assets/fonts/instrumentsans-latin.woff2" crossorigin>
-{preload}<link rel="stylesheet" href="{{R}}assets/css/style.css?v=3">
+{preload}<link rel="stylesheet" href="{{R}}assets/css/style.css?v=4">
 {kier_css}
 {ld_html}</head>
 <body class="{'dom' if home else 'pod'}{(' k-' + KIER) if KIER and home else ''}">
@@ -243,7 +243,7 @@ def usluga(path, nazwa, title, desc, h1, lead, tresc, temat, dopisek=""):
 
 
 strony = []
-FAQ_LD = {'@context': 'https://schema.org', '@type': 'FAQPage', 'mainEntity': [{'@type': 'Question', 'name': 'Ile kosztuje prowadzenie księgowości?', 'acceptedAnswer': {'@type': 'Answer', 'text': 'Cenę ustalamy indywidualnie. Zależy od formy działalności i opodatkowania, liczby dokumentów w miesiącu i liczby pracowników. Wycena jest bezpłatna - wystarczy telefon do recepcji albo wiadomość przez formularz.'}}, {'@type': 'Question', 'name': 'Czy muszę przychodzić do biura z dokumentami?', 'acceptedAnswer': {'@type': 'Answer', 'text': 'Nie. Faktury i inne dokumenty możesz przesyłać elektronicznie. Jeśli wolisz, możesz je też zostawić w recepcji przy ul. Rybackiej 3.'}}, {'@type': 'Question', 'name': 'Czy przypomnicie mi o podatku i ZUS?', 'acceptedAnswer': {'@type': 'Answer', 'text': 'Tak. Co miesiąc dostajesz informację o wysokości i terminie zapłaty podatków oraz składek ZUS.'}}, {'@type': 'Question', 'name': 'Czy mogę wglądać w swoje dokumenty?', 'acceptedAnswer': {'@type': 'Answer', 'text': 'Tak. Zaksięgowane dokumenty archiwizujemy i w każdej chwili możesz je przejrzeć oraz skopiować w recepcji biura.'}}, {'@type': 'Question', 'name': 'Czy prowadzicie kadry i płace?', 'acceptedAnswer': {'@type': 'Answer', 'text': 'Tak, mamy osobny dział kadr: tel. 56 691 20 85, kadry@buchalter.home.pl. Przygotowujemy umowy, listy płac, rozliczenia ZUS i deklaracje PIT-11.'}}, {'@type': 'Question', 'name': 'Czy pomagacie osobom, które nie prowadzą firmy?', 'acceptedAnswer': {'@type': 'Answer', 'text': 'Tak. Wśród naszych klientów są osoby nieprowadzące działalności gospodarczej - rozliczamy ich podatki.'}}, {'@type': 'Question', 'name': 'Czy pomożecie założyć firmę albo spółkę?', 'acceptedAnswer': {'@type': 'Answer', 'text': 'Tak. Pomagamy wybrać formę działalności i opodatkowania oraz załatwiamy formalności, także rejestrację spółki w KRS.'}}]}
+FAQ_LD = {'@context': 'https://schema.org', '@type': 'FAQPage', 'mainEntity': [{'@type': 'Question', 'name': 'Ile kosztuje prowadzenie księgowości?', 'acceptedAnswer': {'@type': 'Answer', 'text': 'Ceny zaczynają się od: księga przychodów i rozchodów 200 zł netto, ryczałt 180 zł netto, księgi handlowe 800 zł netto, kadry i płace 60 zł netto. Dokładna kwota zależy od formy działalności i opodatkowania, liczby dokumentów w miesiącu i liczby pracowników. Wycena jest bezpłatna - wystarczy telefon do recepcji albo wiadomość przez formularz.'}}, {'@type': 'Question', 'name': 'Czy muszę przychodzić do biura z dokumentami?', 'acceptedAnswer': {'@type': 'Answer', 'text': 'Nie. Zdecydowana większość faktur trafia do nas z KSeF. Pozostałe dokumenty, np. faktury zagraniczne, możesz przesyłać elektronicznie albo zostawić w recepcji przy ul. Rybackiej 3.'}}, {'@type': 'Question', 'name': 'Czy przypomnicie mi o podatku i ZUS?', 'acceptedAnswer': {'@type': 'Answer', 'text': 'Tak. Co miesiąc dostajesz informację o wysokości i terminie zapłaty podatków oraz składek ZUS.'}}, {'@type': 'Question', 'name': 'Czy mogę wglądać w swoje dokumenty?', 'acceptedAnswer': {'@type': 'Answer', 'text': 'Tak. Faktury z KSeF masz zawsze w KSeF. Dokumenty papierowe archiwizujemy po zakończeniu roku i sporządzeniu zeznania rocznego, a ewidencje podatkowe przekazujemy Ci elektronicznie.'}}, {'@type': 'Question', 'name': 'Czy prowadzicie kadry i płace?', 'acceptedAnswer': {'@type': 'Answer', 'text': 'Tak, mamy osobny dział kadr: tel. 56 691 20 85, kadry@buchalter.home.pl. Przygotowujemy umowy, listy płac, rozliczenia ZUS i deklaracje PIT-11.'}}, {'@type': 'Question', 'name': 'Czy pomagacie osobom, które nie prowadzą firmy?', 'acceptedAnswer': {'@type': 'Answer', 'text': 'Tak. Rozliczamy podatki osób nieprowadzących działalności gospodarczej i prowadzimy ewidencje podatkowe osób prywatnych i rolników, np. najem prywatny i rozliczanie VAT dla rolników.'}}, {'@type': 'Question', 'name': 'Czy pomożecie założyć firmę albo spółkę?', 'acceptedAnswer': {'@type': 'Answer', 'text': 'Tak. Pomagamy wybrać formę działalności i załatwiamy formalności, także rejestrację spółki w KRS. Przy wyborze formy opodatkowania współpracujemy z kancelarią prawno-podatkową (radcy prawni, doradcy podatkowi).'}}]}
 
 # ---------------------------------------------------------------- STRONA GLOWNA
 def ik(nazwa):
@@ -256,6 +256,7 @@ IKONY = {
     "kadry": '<circle cx="12" cy="11" r="4"/><path d="M4.5 25.5c.8-4.2 3.8-6.5 7.5-6.5s6.7 2.3 7.5 6.5"/><circle cx="22.5" cy="12.5" r="3"/><path d="M21 19.2c3.3-.3 5.8 1.6 6.5 5.3"/>',
     "podatki": '<path d="M8 4.5h12l5 5V27.5H8z"/><path d="M20 4.5v5h5"/><path d="M12.5 21.5l7-7"/><circle cx="13" cy="15" r="1.3"/><circle cx="19" cy="21" r="1.3"/>',
     "start": '<path d="M5 26.5h22"/><path d="M8 26.5V13l8-6 8 6v13.5"/><path d="M13.5 26.5v-7h5v7"/>',
+    "prywatni": '<path d="M3.5 26h25"/><path d="M4.5 26V15.5L11 10l6.5 5.5V26"/><path d="M9.5 26v-5h3v5"/><path d="M23.5 26V14"/><path d="M23.5 19.5c-3.6 0-5.5-2.2-5.5-5.5 3.6 0 5.5 2.2 5.5 5.5z"/><path d="M23.5 16.5c0-3.6 2-6 5.5-6 0 3.5-2 6-5.5 6z"/>',
     "wsparcie": '<path d="M16 4.5l9.5 3.8v7.2c0 5.8-4 10-9.5 12-5.5-2-9.5-6.2-9.5-12V8.3z"/><path d="M11.5 16l3.2 3.2 6-6.4"/>',
 }
 
@@ -270,8 +271,8 @@ home = f'''<section class="hero">
     <div class="wrap">
       <div class="hero-tekst">
         <p class="hero-adres">Buchalter, ul. Rybacka 3, Chełmno</p>
-        <h1>Biuro rachunkowe w&nbsp;Chełmnie</h1>
-        <p class="lead">Od 1999 roku prowadzimy księgowość, kadry i&nbsp;płace firm, fundacji i&nbsp;osób prywatnych.</p>
+        <h1>Biuro Rachunkowe w&nbsp;Chełmnie</h1>
+        <p class="lead">Od 1999 roku prowadzimy księgowość oraz obsługujemy kadry i&nbsp;płace jednoosobowych działalności, spółek, fundacji i&nbsp;stowarzyszeń. W&nbsp;Buchalterze pracują wyspecjalizowane zespoły zajmujące się księgami rachunkowymi, uproszczoną księgowością oraz kadrami i&nbsp;płacami. Pomagamy też wdrożyć KSeF, usprawnić elektroniczny obieg dokumentów i&nbsp;korzystać z&nbsp;e-Urzędu Skarbowego. Dokumenty możesz przesyłać online lub zostawić w&nbsp;recepcji przy ul.&nbsp;Rybackiej&nbsp;3.</p>
         <div class="hero-cta" id="heroCta">
           <a class="btn btn-hero" href="{{R}}kontakt/#formularz">Umów bezpłatną wycenę</a>
           <a class="hero-tel" href="tel:{TEL_H}">{IKONA_TEL}<span>lub zadzwoń <b>{TEL}</b></span></a>
@@ -285,15 +286,16 @@ home = f'''<section class="hero">
   <div class="wrap">
     <div class="sek-glowa">
       <h2>Zakres usług</h2>
-      <p>Obsługujemy jednoosobowe działalności, spółki, fundacje i&nbsp;stowarzyszenia, a&nbsp;także spółki-córki dużych firm i&nbsp;osoby prywatne.</p>
+      <p>Obsługujemy jednoosobowe działalności, spółki, fundacje i&nbsp;stowarzyszenia oraz osoby prywatne.</p>
     </div>
     <div class="uslugi">
       <a class="usluga" href="{{R}}oferta/ksiegowosc/">{ik("ksiega")}<h3>Księga przychodów i&nbsp;ryczałt</h3><p>KPiR albo ewidencja przychodów, środki trwałe. Co miesiąc wiesz, ile i&nbsp;do kiedy zapłacić podatku i&nbsp;ZUS.</p><span class="wiecej">Księgowość dla firm</span></a>
       <a class="usluga" href="{{R}}oferta/ksiegowosc/#pelna-ksiegowosc">{ik("pelna")}<h3>Pełna księgowość</h3><p>Księgi rachunkowe spółek, fundacji i&nbsp;stowarzyszeń, polityka rachunkowości, sprawozdania finansowe.</p><span class="wiecej">Księgi rachunkowe</span></a>
       <a class="usluga" href="{{R}}oferta/kadry-i-place/">{ik("kadry")}<h3>Kadry i&nbsp;płace</h3><p>Umowy, akta osobowe, terminy badań i&nbsp;BHP, listy płac, ZUS i&nbsp;PIT-11. Osobny dział kadr.</p><span class="wiecej">Obsługa kadrowo-płacowa</span></a>
       <a class="usluga" href="{{R}}oferta/podatki/">{ik("podatki")}<h3>Rozliczenia podatkowe</h3><p>Rozliczenia firm i&nbsp;osób prywatnych. Reprezentujemy podatników przed organami kontroli.</p><span class="wiecej">Podatki i&nbsp;kontrole</span></a>
-      <a class="usluga" href="{{R}}oferta/zakladanie-dzialalnosci/">{ik("start")}<h3>Zakładanie działalności</h3><p>Wybór formy działalności i&nbsp;opodatkowania, formalności, rejestracja spółki w&nbsp;KRS.</p><span class="wiecej">Start firmy</span></a>
-      <a class="usluga" href="{{R}}oferta/#wsparcie">{ik("wsparcie")}<h3>Bieżące wsparcie</h3><p>Śledzimy zmiany w&nbsp;przepisach i&nbsp;mówimy klientom, co z&nbsp;nich wynika dla ich firmy.</p><span class="wiecej">Cała oferta</span></a>
+      <a class="usluga" href="{{R}}oferta/podatki/#osoby-prywatne-i-rolnicy">{ik("prywatni")}<h3>Osoby prywatne i&nbsp;rolnicy</h3><p>Prowadzimy ewidencje podatkowe osób prywatnych i&nbsp;rolników: najem prywatny, rozliczanie VAT dla rolników.</p><span class="wiecej">Ewidencje podatkowe</span></a>
+      <a class="usluga" href="{{R}}oferta/zakladanie-dzialalnosci/">{ik("start")}<h3>Zakładanie działalności</h3><p>Wybór formy działalności, formalności, rejestracja spółki w&nbsp;KRS. Przy wyborze formy opodatkowania współpracujemy z&nbsp;kancelarią prawno-podatkową.</p><span class="wiecej">Start firmy</span></a>
+      <a class="usluga usluga-szeroka" href="{{R}}oferta/#wsparcie">{ik("wsparcie")}<h3>Bieżące wsparcie i&nbsp;KSeF</h3><p>Pomagamy we wszystkich formalnościach związanych z&nbsp;KSeF: przy zakładaniu profilu zaufanego, nadawaniu uprawnień i&nbsp;zarządzaniu nimi, wystawianiu i&nbsp;wysyłce faktur sprzedaży. Faktury możemy odbierać bezpośrednio z&nbsp;KSeF albo udostępnić Ci aplikację połączoną z&nbsp;KSeF i&nbsp;naszym systemem księgowym. Śledzimy też zmiany w&nbsp;przepisach i&nbsp;mówimy, co z&nbsp;nich wynika dla Twojej firmy.</p><span class="wiecej">Cała oferta</span></a>
     </div>
   </div>
 </section>
@@ -321,7 +323,7 @@ home = f'''<section class="hero">
     <ol class="kroki">
       <li><h3>Rozmowa i&nbsp;wycena</h3><p>Pytamy o&nbsp;formę działalności, opodatkowanie, liczbę dokumentów i&nbsp;pracowników. Wycena jest bezpłatna.</p></li>
       <li><h3>Umowa</h3><p>Ustalamy, od którego miesiąca przejmujemy księgowość i&nbsp;jak będziesz przekazywać dokumenty.</p></li>
-      <li><h3>Przekazanie dokumentów</h3><p>Podpowiadamy, co przygotować: dane firmy, ewidencje za bieżący rok, akta pracowników.</p></li>
+      <li><h3>Faktury z&nbsp;KSeF i&nbsp;dokumenty</h3><p>Ustalamy, jak będą do nas trafiać faktury z&nbsp;KSeF: przez udostępnianą przez nas aplikację (Betterfly od Comarch, prosta, również mobilna) albo pobieramy je sami. Pomagamy nadać uprawnienia w&nbsp;KSeF i&nbsp;podpowiadamy, co jeszcze przygotować.</p></li>
       <li><h3>Stała obsługa</h3><p>Co miesiąc dostajesz kwoty i&nbsp;terminy podatków oraz ZUS. Na pytania odpowiadamy niezwłocznie.</p></li>
     </ol>
     <a class="link-strz" href="{{R}}jak-pracujemy/">Więcej o&nbsp;współpracy</a>
@@ -349,14 +351,14 @@ home = f'''<section class="hero">
   <div class="wrap cen-in">
     <div>
       <h2>Cennik pakietów</h2>
-      <p class="lead2">Cenę ustalamy indywidualnie. Zależy od formy działalności, liczby dokumentów w&nbsp;miesiącu i&nbsp;liczby pracowników.</p>
+      <p class="lead2">Ceny netto. Dokładną kwotę ustalamy indywidualnie, bo zależy od formy działalności, liczby dokumentów w&nbsp;miesiącu i&nbsp;liczby pracowników.</p>
       <table class="rachunek">
         <caption class="sr">Pakiety usług księgowych</caption>
         <tbody>
-          <tr><th scope="row">Księgi podatkowe</th><td>wycena indywidualna</td></tr>
-          <tr><th scope="row">Ryczałt</th><td>wycena indywidualna</td></tr>
-          <tr><th scope="row">Księgi handlowe</th><td>wycena indywidualna</td></tr>
-          <tr><th scope="row">Kadry i&nbsp;płace</th><td>za osobę, indywidualnie</td></tr>
+          <tr><th scope="row">Księgi podatkowe (KPiR)</th><td>od 200 zł netto</td></tr>
+          <tr><th scope="row">Ryczałt</th><td>od 180 zł netto</td></tr>
+          <tr><th scope="row">Księgi handlowe</th><td>od 800 zł netto</td></tr>
+          <tr><th scope="row">Kadry i&nbsp;płace</th><td>od 60 zł netto</td></tr>
         </tbody>
       </table>
       <a class="link-strz" href="{{R}}cennik/">Co obejmują pakiety</a>
@@ -385,8 +387,8 @@ home = f'''<section class="hero">
   </div>
 </section>'''
 
-strony.append(strona("", "Biuro rachunkowe Chełmno - Buchalter, Wioletta Prełowska",
-                     "Biuro Rachunkowe Buchalter w Chełmnie, ul. Rybacka 3. Księga przychodów, ryczałt, pełna księgowość, kadry i płace, podatki, zakładanie firmy. Tel. 56 691 20 80.",
+strony.append(strona("", "Biuro Rachunkowe Chełmno - Buchalter, Wioletta Prełowska",
+                     "Biuro Rachunkowe Buchalter w Chełmnie, ul. Rybacka 3. Księgowość, kadry i płace, VAT i JPK, KSeF, ewidencje dla osób prywatnych i rolników. Tel. 56 691 20 80.",
                      home, home=True))
 
 # ---------------------------------------------------------------- OFERTA
@@ -408,22 +410,23 @@ of_body = glowa("Oferta biura rachunkowego w Chełmnie",
       </article>
       <article class="usluga">
         <h2><a href="{{R}}oferta/podatki/">Rozliczenia podatkowe</a></h2>
-        <p>Ewidencja i rozliczenia podatkowe firm, mikrofirm i osób prywatnych. Reprezentacja przed organami kontroli podatkowej.</p>
+        <p>Ewidencja i rozliczenia podatkowe firm, mikrofirm i osób prywatnych, także ewidencje najmu prywatnego i rozliczanie VAT dla rolników. Reprezentacja przed organami kontroli podatkowej.</p>
         <span class="link-strz" aria-hidden="true">Szczegóły</span>
       </article>
       <article class="usluga">
         <h2><a href="{{R}}oferta/zakladanie-dzialalnosci/">Zakładanie działalności</a></h2>
-        <p>Wybór formy działalności i opodatkowania, formalności rejestracyjne, rejestracja spółki w KRS.</p>
+        <p>Wybór formy działalności, formalności rejestracyjne, rejestracja spółki w KRS. Przy wyborze formy opodatkowania współpracujemy z kancelarią prawno-podatkową.</p>
         <span class="link-strz" aria-hidden="true">Szczegóły</span>
       </article>
       <article class="usluga">
         <h2><a href="{{R}}cennik/">Cennik pakietów</a></h2>
-        <p>Co obejmują pakiety: księgi podatkowe, ryczałt, księgi handlowe oraz kadry i płace.</p>
+        <p>Księga przychodów i rozchodów od 200 zł netto, ryczałt od 180 zł netto, księgi handlowe od 800 zł netto, kadry i płace od 60 zł netto.</p>
         <span class="link-strz" aria-hidden="true">Zobacz cennik</span>
       </article>
       <article class="usluga" id="wsparcie">
-        <h2>Bieżące wsparcie w prowadzeniu firmy</h2>
-        <p>Monitorujemy zmiany w przepisach podatkowych i innych przepisach dotyczących prowadzenia działalności. Informujemy klientów o zmianach, które ich dotyczą, i podpowiadamy, co z nich wynika dla firmy.</p>
+        <h2>Bieżące wsparcie i KSeF</h2>
+        <p>Pomagamy we wszystkich formalnościach związanych z obowiązkami przedsiębiorcy przy obsłudze KSeF: pomagamy założyć profil zaufany, jeśli jest taka potrzeba, nadawać uprawnienia i nimi zarządzać, wystawiać i wysyłać faktury sprzedaży do KSeF. Możemy odbierać bezpośrednio z KSeF wszystkie Twoje faktury albo udostępnić Ci aplikację współpracującą z naszym systemem księgowym i połączoną z KSeF. W aplikacji samodzielnie wystawisz faktury sprzedaży, zaimportujesz z KSeF faktury zakupu i przed przesłaniem faktur dodasz notatki dla biura.</p>
+        <p>Monitorujemy też zmiany w przepisach podatkowych i innych przepisach dotyczących prowadzenia działalności i informujemy klientów o tych, które ich dotyczą.</p>
       </article>
     </div>
   </div>
@@ -439,21 +442,22 @@ of_body = glowa("Oferta biura rachunkowego w Chełmnie",
       <li><h3>Jednoosobowa działalność</h3><p>Księga przychodów i rozchodów albo ryczałt, środki trwałe, miesięczna informacja o podatku i składkach ZUS. Jeśli zatrudniasz - także kadry i płace.</p></li>
       <li><h3>Spółki</h3><p>Pełne księgi rachunkowe, polityka rachunkowości, plan kont, sprawozdania finansowe i ich publikacja. Obsługujemy również spółki-córki większych firm.</p></li>
       <li><h3>Fundacje i stowarzyszenia</h3><p>Księgi rachunkowe organizacji, instrukcje obiegu dokumentów i sprawozdania finansowe.</p></li>
-      <li><h3>Osoby prywatne</h3><p>Rozliczenia podatkowe osób, które nie prowadzą działalności gospodarczej.</p></li>
-      <li><h3>Nowe firmy</h3><p>Pomoc w wyborze formy działalności i opodatkowania oraz formalności przy rejestracji.</p></li>
+      <li><h3>Osoby prywatne</h3><p>Rozliczenia podatkowe osób, które nie prowadzą działalności gospodarczej, i ewidencje podatkowe najmu prywatnego.</p></li>
+      <li><h3>Rolnicy</h3><p>Rozliczanie VAT dla rolników, także sama obsługa VAT dla rolników rozliczających VAT na zasadach ogólnych.</p></li>
+      <li><h3>Nowe firmy</h3><p>Pomoc w wyborze formy działalności i formalności przy rejestracji. Przy wyborze formy opodatkowania współpracujemy z kancelarią prawno-podatkową.</p></li>
     </ul>
   </div>
 </section>'''
 strony.append(strona("oferta/", "Oferta - biuro rachunkowe Chełmno | Buchalter",
-                     "Usługi Biura Rachunkowego Buchalter w Chełmnie: księga przychodów i rozchodów, ryczałt, pełna księgowość, kadry i płace, rozliczenia podatkowe, zakładanie działalności.",
+                     "Usługi Biura Rachunkowego Buchalter w Chełmnie: księga przychodów i rozchodów, ryczałt, VAT i JPK, KSeF, pełna księgowość, kadry i płace, rozliczenia podatkowe, zakładanie działalności.",
                      of_body, akt="oferta/", okruszki=[("Oferta", "oferta/")]))
 
 # ---------------------------------------------------------------- KSIEGOWOSC
 strony.append(usluga("oferta/ksiegowosc/", "Księgowość",
-    "Księgowość Chełmno - KPiR, ryczałt, pełna księgowość | Buchalter",
-    "Prowadzenie księgowości w Chełmnie: podatkowa księga przychodów i rozchodów, ryczałt ewidencjonowany, pełne księgi rachunkowe spółek i fundacji, sprawozdania finansowe.",
+    "Księgowość Chełmno - KPiR, ryczałt, VAT, pełna księgowość | Buchalter",
+    "Prowadzenie księgowości w Chełmnie: podatkowa księga przychodów i rozchodów, ryczałt ewidencjonowany, ewidencja VAT i JPK_VAT, pełne księgi rachunkowe spółek i fundacji.",
     "Księgowość dla firm i organizacji",
-    "Prowadzimy podatkową księgę przychodów i rozchodów, ewidencję przychodów dla ryczałtowców oraz pełne księgi rachunkowe spółek, fundacji i stowarzyszeń.",
+    "Prowadzimy podatkową księgę przychodów i rozchodów, ewidencję przychodów dla ryczałtowców, ewidencję i rozliczenia VAT oraz pełne księgi rachunkowe spółek, fundacji i stowarzyszeń.",
     f'''<h2>Księga przychodów i rozchodów</h2>
 <p>Prowadzimy podatkową księgę przychodów i rozchodów zgodnie z obowiązującymi przepisami. W ramach obsługi:</p>
 <ul>
@@ -463,6 +467,8 @@ strony.append(usluga("oferta/ksiegowosc/", "Księgowość",
 </ul>
 <h2>Ryczałt ewidencjonowany</h2>
 <p>Dla firm rozliczających się ryczałtem prowadzimy ewidencję przychodów. Tak samo jak przy księdze przychodów dostajesz informację o kwocie i terminie podatku oraz składek ZUS, a w razie wątpliwości - konsultację.</p>
+<h2 id="vat">Ewidencja i rozliczenia VAT</h2>
+<p>Prowadzimy ewidencję sprzedaży i zakupów VAT oraz przygotowujemy i wysyłamy pliki JPK_VAT. Rozliczenia VAT możemy połączyć z prowadzeniem KPiR, ewidencji przychodów na ryczałcie lub ksiąg rachunkowych. Oferujemy też samą obsługę VAT, m.in. dla rolników rozliczających VAT na zasadach ogólnych.</p>
 <h2 id="pelna-ksiegowosc">Pełna księgowość</h2>
 <p>Prowadzimy księgi rachunkowe (księgi handlowe) spółek, fundacji i stowarzyszeń. Oprócz samego księgowania przygotowujemy dokumenty, których wymaga ustawa o rachunkowości:</p>
 <ul>
@@ -473,8 +479,8 @@ strony.append(usluga("oferta/ksiegowosc/", "Księgowość",
 </ul>
 <h2>Ewidencje i sprawozdania</h2>
 <p>Prowadzimy ewidencję środków trwałych, sporządzamy sprawozdania statystyczne dla GUS oraz ewidencje i rejestry według potrzeb klienta.</p>
-<h2>Dokumenty elektronicznie albo w recepcji</h2>
-<p>Faktury i inne dokumenty możesz przesyłać w formie elektronicznej albo zostawić w biurze przy ul. Rybackiej 3. Po zaksięgowaniu archiwizujemy je, a Ty w każdej chwili możesz je przejrzeć i skopiować w recepcji.</p>''',
+<h2>Faktury z KSeF i dokumenty papierowe</h2>
+<p>Zdecydowana większość faktur trafia do nas z KSeF. Dokumenty spoza KSeF, np. faktury zagraniczne, możesz przesyłać elektronicznie albo zostawić w biurze przy ul. Rybackiej 3. Faktur z KSeF nie drukujemy. Po zakończeniu roku i sporządzeniu zeznania rocznego archiwizujemy dokumenty papierowe, a ewidencje podatkowe przekazujemy Ci elektronicznie.</p>''',
     "Księgowość"))
 
 # ---------------------------------------------------------------- KADRY
@@ -498,21 +504,26 @@ strony.append(usluga("oferta/kadry-i-place/", "Kadry i płace",
   <li>sporządzamy roczne deklaracje PIT-11 dla pracowników.</li>
 </ul>
 <h2>Jak liczymy cenę</h2>
-<p>Pakiet kadry i płace wyceniamy za każdą zatrudnioną osobę. Szczegóły znajdziesz w <a href="{R}cennik/">cenniku</a>, a dokładną kwotę podamy po krótkiej rozmowie o liczbie pracowników i rodzajach umów.</p>
+<p>Pakiet kadry i płace wyceniamy za każdą zatrudnioną osobę, od 60 zł netto. Szczegóły znajdziesz w <a href="{R}cennik/">cenniku</a>, a dokładną kwotę podamy po krótkiej rozmowie o liczbie pracowników i rodzajach umów.</p>
 <p class="ramka">Dział kadr ma osobny numer: <a href="tel:+48566912085">56 691 20 85</a>, e-mail <a href="mailto:kadry@buchalter.home.pl">kadry@buchalter.home.pl</a>.</p>''',
     "Kadry i płace",
     '<small class="kadry">dział kadr: <a href="tel:+48566912085">56 691 20 85</a></small>'))
 
 # ---------------------------------------------------------------- PODATKI
 strony.append(usluga("oferta/podatki/", "Rozliczenia podatkowe",
-    "Rozliczenia podatkowe Chełmno - firmy i osoby prywatne | Buchalter",
-    "Ewidencja i rozliczenia podatkowe firm, mikrofirm i osób prywatnych w Chełmnie. Reprezentacja podatników przed organami kontroli podatkowej. Biuro Rachunkowe Buchalter.",
+    "Rozliczenia podatkowe Chełmno - firmy, osoby prywatne, rolnicy | Buchalter",
+    "Ewidencja i rozliczenia podatkowe firm i osób prywatnych w Chełmnie: najem prywatny, VAT dla rolników, reprezentacja przed organami kontroli podatkowej. Biuro Rachunkowe Buchalter.",
     "Rozliczenia podatkowe",
-    "Ewidencja i rozliczenia podatkowe firm, mikrofirm i osób prywatnych, zgodnie z obowiązującymi przepisami. W razie kontroli reprezentujemy podatnika.",
+    "Ewidencja i rozliczenia podatkowe firm, mikrofirm, osób prywatnych i rolników, zgodnie z obowiązującymi przepisami. W razie kontroli reprezentujemy podatnika.",
     '''<h2>Podatki w firmie</h2>
 <p>Prowadzimy ewidencje podatkowe i rozliczamy podatki naszych klientów. Co miesiąc dostajesz informację, ile podatku i składek ZUS trzeba zapłacić i do kiedy, więc nie musisz sam pilnować terminów.</p>
-<h2>Osoby prywatne</h2>
-<p>Pomagamy także osobom, które nie prowadzą działalności gospodarczej. Zadzwoń do recepcji i powiedz, czego dotyczy rozliczenie, a umówimy termin.</p>
+<h2 id="osoby-prywatne-i-rolnicy">Osoby prywatne i rolnicy</h2>
+<p>Pomagamy także osobom, które nie prowadzą działalności gospodarczej. Prowadzimy ewidencje podatkowe osób prywatnych i rolników:</p>
+<ul>
+  <li>najem prywatny,</li>
+  <li>rozliczanie VAT dla rolników, także sama obsługa VAT dla rolników rozliczających VAT na zasadach ogólnych (więcej w części o <a href="{R}oferta/ksiegowosc/#vat">ewidencji i rozliczeniach VAT</a>).</li>
+</ul>
+<p>Zadzwoń do recepcji i powiedz, czego dotyczy rozliczenie, a umówimy termin.</p>
 <h2>Kontrola podatkowa</h2>
 <p>Reprezentujemy podatników przed organami kontroli podatkowej.</p>
 <h2>Zmiany w przepisach</h2>
@@ -521,14 +532,14 @@ strony.append(usluga("oferta/podatki/", "Rozliczenia podatkowe",
 
 # ---------------------------------------------------------------- ZAKLADANIE
 strony.append(usluga("oferta/zakladanie-dzialalnosci/", "Zakładanie działalności",
-    "Zakładanie działalności Chełmno - forma, podatek, rejestracja | Buchalter",
-    "Pomoc w zakładaniu firmy w Chełmnie: wybór formy działalności i formy opodatkowania, formalności urzędowe, rejestracja spółki w KRS. Biuro Rachunkowe Buchalter.",
+    "Zakładanie działalności Chełmno - forma działalności, rejestracja | Buchalter",
+    "Pomoc w zakładaniu firmy w Chełmnie: wybór formy działalności, formalności urzędowe, rejestracja spółki w KRS, współpraca z kancelarią prawno-podatkową. Biuro Rachunkowe Buchalter.",
     "Zakładanie działalności gospodarczej",
-    "Pomagamy wybrać formę działalności i opodatkowania, a potem załatwiamy formalności - także przy rejestracji spółki w KRS.",
+    "Pomagamy wybrać formę działalności, a potem załatwiamy formalności - także przy rejestracji spółki w KRS. Przy wyborze formy opodatkowania współpracujemy z kancelarią prawno-podatkową.",
     '''<h2>Wybór formy działalności</h2>
 <p>Doradzamy, czy lepsza będzie jednoosobowa działalność, czy spółka - tak, żeby forma odpowiadała Twoim planom i zabezpieczała Twoje interesy.</p>
 <h2>Wybór formy opodatkowania</h2>
-<p>Porównujemy dostępne formy opodatkowania i pomagamy wybrać najkorzystniejszą przy przychodach i kosztach, jakich się spodziewasz.</p>
+<p>Przy wyborze formy opodatkowania współpracujemy z kancelarią prawno-podatkową, w której pracują radcy prawni i doradcy podatkowi.</p>
 <h2>Formalności</h2>
 <p>Możesz zlecić nam formalności urzędowe związane z rejestracją działalności, w tym rejestrację spółki w Krajowym Rejestrze Sądowym.</p>
 <h2>Co przygotować na pierwszą rozmowę</h2>
@@ -550,8 +561,8 @@ jp = glowa("Jak pracujemy",
     <div>
       <ul class="punkty">
         <li><b>Odpowiadamy szybko.</b> Na pytania odpowiadamy niezwłocznie i pomagamy, gdy trzeba coś pilnie wyjaśnić.</li>
-        <li><b>Dokumenty w wygodnej formie.</b> Faktury i inne dokumenty możesz przesyłać elektronicznie albo zostawić w recepcji przy ul. Rybackiej 3.</li>
-        <li><b>Księgujemy i archiwizujemy.</b> Po otrzymaniu dokumentów księgujemy je i odkładamy do archiwum. Zawsze możesz je przejrzeć i skopiować w recepcji.</li>
+        <li><b>Dokumenty w wygodnej formie.</b> Zdecydowana większość faktur trafia do nas z KSeF. Dokumenty spoza KSeF, np. faktury zagraniczne, możesz przesyłać elektronicznie albo zostawić w recepcji przy ul. Rybackiej 3.</li>
+        <li><b>Księgujemy i archiwizujemy.</b> Po otrzymaniu dokumentów księgujemy je. Faktur z KSeF nie drukujemy. Po zakończeniu roku i sporządzeniu zeznania rocznego archiwizujemy dokumenty papierowe, a ewidencje podatkowe przekazujemy Ci elektronicznie.</li>
         <li><b>Pilnujemy terminów.</b> Co miesiąc dostajesz informację o wysokości i terminie podatków oraz składek ZUS.</li>
         <li><b>Działy według rodzaju klientów.</b> Każdy dział obsługuje firmy z określonych branż, o tej samej formie prawnej i sposobie rozliczeń.</li>
         <li><b>Ciągłość obsługi.</b> Zespół jest na tyle duży, że sezon urlopowy czy nieobecność jednej osoby nie wstrzymuje pracy nad Twoimi sprawami.</li>
@@ -567,6 +578,7 @@ jp = glowa("Jak pracujemy",
       <h2>Jak zacząć współpracę</h2>
       <p class="lead2">Najprościej zadzwonić do recepcji pod numer <a href="tel:{TEL_H}">{TEL}</a> albo napisać przez <a href="{{R}}kontakt/#formularz">formularz</a>.</p>
       <p class="odst">Zapytamy o formę działalności, sposób opodatkowania, przybliżoną liczbę dokumentów w miesiącu i to, czy zatrudniasz pracowników. Na tej podstawie przygotujemy bezpłatną wycenę. Jeśli ją zaakceptujesz, podpisujemy umowę i ustalamy, od którego miesiąca przejmujemy księgowość oraz w jaki sposób będziesz przekazywać dokumenty.</p>
+      <p class="odst">Ustalamy też sposób dostarczania faktur z KSeF: możesz korzystać z udostępnianej przez nas aplikacji (Betterfly od Comarch, prosta, również mobilna) albo sami będziemy pobierać Twoje faktury. Pomagamy nadać odpowiednie uprawnienia w KSeF.</p>
     </div>
     <div>
       <h2>Jakie dokumenty przygotować</h2>
@@ -588,11 +600,11 @@ jp = glowa("Jak pracujemy",
       <h2>Najczęstsze pytania</h2>
       <p class="lead2">Nie ma tu odpowiedzi na Twoje pytanie? Zadzwoń do recepcji: <a href="tel:{TEL_H}">{TEL}</a>.</p>
     </div>
-    <div class="faq"><details><summary>Ile kosztuje prowadzenie księgowości?</summary><p>Cenę ustalamy indywidualnie. Zależy od formy działalności i opodatkowania, liczby dokumentów w miesiącu i liczby pracowników. Wycena jest bezpłatna - wystarczy telefon do recepcji albo wiadomość przez formularz.</p></details><details><summary>Czy muszę przychodzić do biura z dokumentami?</summary><p>Nie. Faktury i inne dokumenty możesz przesyłać elektronicznie. Jeśli wolisz, możesz je też zostawić w recepcji przy ul. Rybackiej 3.</p></details><details><summary>Czy przypomnicie mi o podatku i ZUS?</summary><p>Tak. Co miesiąc dostajesz informację o wysokości i terminie zapłaty podatków oraz składek ZUS.</p></details><details><summary>Czy mogę wglądać w swoje dokumenty?</summary><p>Tak. Zaksięgowane dokumenty archiwizujemy i w każdej chwili możesz je przejrzeć oraz skopiować w recepcji biura.</p></details><details><summary>Czy prowadzicie kadry i płace?</summary><p>Tak, mamy osobny dział kadr: tel. 56 691 20 85, kadry@buchalter.home.pl. Przygotowujemy umowy, listy płac, rozliczenia ZUS i deklaracje PIT-11.</p></details><details><summary>Czy pomagacie osobom, które nie prowadzą firmy?</summary><p>Tak. Wśród naszych klientów są osoby nieprowadzące działalności gospodarczej - rozliczamy ich podatki.</p></details><details><summary>Czy pomożecie założyć firmę albo spółkę?</summary><p>Tak. Pomagamy wybrać formę działalności i opodatkowania oraz załatwiamy formalności, także rejestrację spółki w KRS.</p></details></div>
+    <div class="faq"><details><summary>Ile kosztuje prowadzenie księgowości?</summary><p>Ceny zaczynają się od: księga przychodów i rozchodów 200 zł netto, ryczałt 180 zł netto, księgi handlowe 800 zł netto, kadry i płace 60 zł netto. Dokładna kwota zależy od formy działalności i opodatkowania, liczby dokumentów w miesiącu i liczby pracowników. Wycena jest bezpłatna - wystarczy telefon do recepcji albo wiadomość przez formularz.</p></details><details><summary>Czy muszę przychodzić do biura z dokumentami?</summary><p>Nie. Zdecydowana większość faktur trafia do nas z KSeF. Pozostałe dokumenty, np. faktury zagraniczne, możesz przesyłać elektronicznie albo zostawić w recepcji przy ul. Rybackiej 3.</p></details><details><summary>Czy przypomnicie mi o podatku i ZUS?</summary><p>Tak. Co miesiąc dostajesz informację o wysokości i terminie zapłaty podatków oraz składek ZUS.</p></details><details><summary>Czy mogę wglądać w swoje dokumenty?</summary><p>Tak. Faktury z KSeF masz zawsze w KSeF. Dokumenty papierowe archiwizujemy po zakończeniu roku i sporządzeniu zeznania rocznego, a ewidencje podatkowe przekazujemy Ci elektronicznie.</p></details><details><summary>Czy prowadzicie kadry i płace?</summary><p>Tak, mamy osobny dział kadr: tel. 56 691 20 85, kadry@buchalter.home.pl. Przygotowujemy umowy, listy płac, rozliczenia ZUS i deklaracje PIT-11.</p></details><details><summary>Czy pomagacie osobom, które nie prowadzą firmy?</summary><p>Tak. Rozliczamy podatki osób nieprowadzących działalności gospodarczej i prowadzimy ewidencje podatkowe osób prywatnych i rolników, np. najem prywatny i rozliczanie VAT dla rolników.</p></details><details><summary>Czy pomożecie założyć firmę albo spółkę?</summary><p>Tak. Pomagamy wybrać formę działalności i załatwiamy formalności, także rejestrację spółki w KRS. Przy wyborze formy opodatkowania współpracujemy z kancelarią prawno-podatkową (radcy prawni, doradcy podatkowi).</p></details></div>
   </div>
 </section>'''
 strony.append(strona("jak-pracujemy/", "Jak pracujemy i jak zacząć współpracę | Buchalter Chełmno",
-                     "Jak pracuje Biuro Rachunkowe Buchalter w Chełmnie: dokumenty elektronicznie lub w recepcji, terminy podatków i ZUS, działy według rodzaju klientów. Jak zacząć współpracę.",
+                     "Jak pracuje Biuro Rachunkowe Buchalter w Chełmnie: faktury z KSeF, pozostałe dokumenty elektronicznie lub w recepcji, terminy podatków i ZUS. Jak zacząć współpracę.",
                      jp, akt="jak-pracujemy/", okruszki=[("Jak pracujemy", "jak-pracujemy/")], schema_extra=FAQ_LD))
 
 # ---------------------------------------------------------------- O BIURZE
@@ -609,6 +621,7 @@ ob = glowa("O biurze",
       <p>Potrzebujesz pewności, że księgowość Twojej firmy jest prowadzona prawidłowo. Dlatego biuro jest podzielone na działy, z których każdy specjalizuje się w obsłudze klientów określonego typu: z podobnych branż, o tej samej formie prawnej i sposobie rozliczeń.</p>
       <p>Nasi księgowi mają kierunkowe wykształcenie i stale poszerzają wiedzę na szkoleniach i kursach. Na co dzień prowadzą różnorodne i złożone sprawy księgowe oraz kadrowe.</p>
       <p>Obsługujemy jednoosobowe działalności, spółki, spółki-córki dużych firm, fundacje i stowarzyszenia, a także osoby prywatne.</p>
+      <p>Współpracujemy z kancelarią prawno-podatkową, w której pracują radcy prawni i doradcy podatkowi.</p>
     </div>
     <div class="tresc">
       <h2>Wioletta Prełowska</h2>
@@ -633,21 +646,21 @@ def pakiet(nazwa, pozycje, cena, temat):
     return f'''<article class="pakiet">
   <h2>{nazwa}</h2>
   <ul>{li}</ul>
-  <p class="cena">{cena}<small>wycena bezpłatna</small></p>
+  <p class="cena">{cena}<small>dokładna wycena bezpłatna</small></p>
   <a class="btn-out" href="{{R}}kontakt/?temat={temat}#formularz">Zapytaj o wycenę</a>
 </article>'''
 
 wsp = ["Informacja o wysokości i terminie podatków oraz składek ZUS", "Konsultacje w sprawie bieżącej sytuacji firmy"]
 cn = glowa("Cennik usług księgowych",
-           "Zobacz, co wchodzi w skład naszych pakietów. Cenę ustalamy indywidualnie, bo zależy od wielkości i rodzaju firmy - wycena jest bezpłatna.",
+           "Zobacz, co wchodzi w skład naszych pakietów i od jakich kwot zaczynają się ceny. Dokładną cenę ustalamy indywidualnie, bo zależy od wielkości i rodzaju firmy - wycena jest bezpłatna.",
            [("Cennik", "cennik/")]) + f'''
 <section>
   <div class="wrap">
     <div class="pakiety">
-      {pakiet("Księgi podatkowe", ["Ewidencja dokumentów księgowych"] + wsp, "Cena ustalana indywidualnie", "Księgi podatkowe")}
-      {pakiet("Ryczałt", ["Prowadzenie ewidencji ryczałtowych"] + wsp, "Cena ustalana indywidualnie", "Ryczałt")}
-      {pakiet("Księgi handlowe", ["Ewidencja dokumentów księgowych"] + wsp, "Cena ustalana indywidualnie", "Księgi handlowe")}
-      {pakiet("Kadry i płace", ["Sporządzanie list płac pracowników", "Naliczanie wynagrodzeń", "Prowadzenie akt pracowniczych", "Sporządzanie deklaracji PIT-11"], "Cena za osobę, ustalana indywidualnie", "Kadry i płace")}
+      {pakiet("Księgi podatkowe", ["Ewidencja dokumentów księgowych"] + wsp, "od 200 zł netto", "Księgi podatkowe")}
+      {pakiet("Ryczałt", ["Prowadzenie ewidencji ryczałtowych"] + wsp, "od 180 zł netto", "Ryczałt")}
+      {pakiet("Księgi handlowe", ["Ewidencja dokumentów księgowych"] + wsp, "od 800 zł netto", "Księgi handlowe")}
+      {pakiet("Kadry i płace", ["Sporządzanie list płac pracowników", "Naliczanie wynagrodzeń", "Prowadzenie akt pracowniczych", "Sporządzanie deklaracji PIT-11"], "od 60 zł netto", "Kadry i płace")}
     </div>
     <div class="pod-cennikiem">
       <div>
@@ -667,7 +680,7 @@ cn = glowa("Cennik usług księgowych",
   </div>
 </section>'''
 strony.append(strona("cennik/", "Cennik biura rachunkowego Chełmno - pakiety | Buchalter",
-                     "Cennik pakietów Biura Rachunkowego Buchalter w Chełmnie: księgi podatkowe, ryczałt, księgi handlowe, kadry i płace. Bezpłatna wycena: tel. 56 691 20 80.",
+                     "Cennik Biura Rachunkowego Buchalter w Chełmnie: KPiR od 200 zł netto, ryczałt od 180 zł netto, księgi handlowe od 800 zł netto, kadry i płace od 60 zł netto.",
                      cn, akt="cennik/", okruszki=[("Cennik", "cennik/")]))
 
 # ---------------------------------------------------------------- KONTAKT
