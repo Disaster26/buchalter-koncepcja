@@ -57,11 +57,12 @@
         <div><dt>Godziny pracy</dt><dd>poniedziałek - piątek: 9:00-16:00<br>sobota, niedziela: nieczynne</dd></div>
         <div><dt>Dane firmy</dt><dd>Biuro Rachunkowe „Buchalter” Prełowska Wioletta<br>NIP 875-109-86-47<br>REGON 871183546</dd></div>
       </dl>
-      <div class="mapa" id="mapa">
-      <div class="mapa-zaslona">
+      <div class="mapa" id="mapa" data-gmapa>
+      <iframe src="https://maps.google.com/maps?q=Rybacka%203%2C%2086-200%20Che%C5%82mno&amp;z=16&amp;output=embed" title="Mapa Google - ul. Rybacka 3, Chełmno" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+      <div class="mapa-zaslona mapa-zast" hidden>
         <svg class="ik" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M16 28s-8.5-8.2-8.5-14.5a8.5 8.5 0 0 1 17 0C24.5 19.8 16 28 16 28z"/><circle cx="16" cy="13.5" r="3"/></svg>
-        <p><b>ul. Rybacka 3, 86-200 Chełmno</b>Mapa Google wczyta się po kliknięciu, razem z&nbsp;plikami cookie Google.</p>
-        <div class="mapa-akcje"><button class="btn-out" type="button" id="mapaPokaz">Pokaż mapę</button><a class="link-strz" href="https://www.google.com/maps/dir/?api=1&amp;destination=Rybacka+3%2C+86-200+Che%C5%82mno" target="_blank" rel="noopener">Wyznacz trasę</a></div>
+        <p><b>ul. Rybacka 3, 86-200 Chełmno</b>Mapa Google jest wyłączona w&nbsp;ustawieniach cookies.</p>
+        <div class="mapa-akcje"><a class="btn-out" href="https://www.google.com/maps/dir/?api=1&amp;destination=Rybacka+3%2C+86-200+Che%C5%82mno" target="_blank" rel="noopener">Wyznacz trasę</a><button class="link-strz st-ck" type="button" data-ck-otworz>Ustawienia cookies</button></div>
       </div>
     </div>
     </div>
@@ -94,7 +95,7 @@
     </div>
     <div>
       <h2>Biuro</h2>
-      <ul><li><a href="../jak-pracujemy/">Jak pracujemy</a></li><li><a href="../o-biurze/">O&nbsp;biurze</a></li><li><a href="../kontakt/">Kontakt i&nbsp;dojazd</a></li><li><a href="https://www.facebook.com/profile.php?id=100063471177071" rel="noopener" target="_blank">Facebook</a></li><li><a href="../polityka-prywatnosci/">Polityka prywatności</a></li></ul>
+      <ul><li><a href="../jak-pracujemy/">Jak pracujemy</a></li><li><a href="../o-biurze/">O&nbsp;biurze</a></li><li><a href="../kontakt/">Kontakt i&nbsp;dojazd</a></li><li><a href="https://www.facebook.com/profile.php?id=100063471177071" rel="noopener" target="_blank">Facebook</a></li><li><a href="../polityka-prywatnosci/">Polityka prywatności</a></li><li><button type="button" class="st-ck" data-ck-otworz>Ustawienia cookies</button></li></ul>
     </div>
   </div>
   <div class="wrap stopka-dol">
@@ -106,6 +107,15 @@
   <a class="mob-tel" href="tel:+48566912080" tabindex="-1">Zadzwoń</a>
   <a class="mob-cta" href="../kontakt/#formularz" tabindex="-1">Bezpłatna wycena</a>
 </div>
-<script src="../assets/js/site.js?v=3" defer></script>
+<div class="ck" id="ck" hidden role="dialog" aria-label="Ustawienia plików cookies">
+  <p class="ck-t">Strona używa plików cookies niezbędnych do działania i&nbsp;zapamiętania Twojego wyboru. Osadzona mapa Google może zapisywać własne pliki cookies. <a href="../polityka-prywatnosci/#cookies">Polityka prywatności</a></p>
+  <div class="ck-ust" hidden>
+    <label><input type="checkbox" checked disabled> <span><b>Niezbędne</b> - zapamiętanie wyboru, zawsze włączone</span></label>
+    <label><input type="checkbox" data-ck-kat="mapy" checked> <span><b>Mapy Google</b> - mapa dojazdu do biura</span></label>
+  </div>
+  <div class="ck-btn"><button type="button" class="ck-b ck-ustaw" data-ck="ustawienia">Ustawienia</button><button type="button" class="ck-b" data-ck="niezbedne">Tylko niezbędne</button><button type="button" class="ck-b ck-ok" data-ck="wszystkie">Akceptuję wszystkie</button></div>
+</div>
+<script src="../assets/js/site.js?v=5" defer></script>
+<script src="../assets/js/ck.js?v=5" defer></script>
 </body>
 </html>

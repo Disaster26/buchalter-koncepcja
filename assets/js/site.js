@@ -30,19 +30,7 @@
     }).observe(cel);
   }
 
-  // mapa Google dopiero po kliknięciu
-  var mb = document.getElementById('mapaPokaz');
-  if (mb) {
-    mb.addEventListener('click', function () {
-      var f = document.createElement('iframe');
-      f.title = 'Mapa: ul. Rybacka 3, Chełmno';
-      f.src = 'https://maps.google.com/maps?q=Rybacka%203%2C%2086-200%20Che%C5%82mno&z=16&output=embed';
-      f.referrerPolicy = 'no-referrer-when-downgrade';
-      var m = document.getElementById('mapa');
-      m.innerHTML = '';
-      m.appendChild(f);
-    });
-  }
+  // mapa Google: osadzona od razu, przy odmowie cookies wyłącza ją assets/js/ck.js
 
   // formularz (wersja testowa - makieta, nic nie wysyła)
   var form = document.getElementById('formularz');
