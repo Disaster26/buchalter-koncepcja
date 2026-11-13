@@ -60,8 +60,11 @@
       <p>Dane mogą być przetwarzane przez dostawców usług, z&nbsp;których korzystamy przy prowadzeniu strony i&nbsp;poczty (hosting i&nbsp;poczta e-mail), wyłącznie na nasze zlecenie. Nie sprzedajemy danych i&nbsp;nie przekazujemy ich do państw spoza Europejskiego Obszaru Gospodarczego.</p>
       <h2>Twoje prawa</h2>
       <p>Masz prawo do dostępu do swoich danych, ich sprostowania, usunięcia lub ograniczenia przetwarzania, wniesienia sprzeciwu oraz przenoszenia danych. Masz też prawo wnieść skargę do Prezesa Urzędu Ochrony Danych Osobowych (ul. Stawki 2, 00-193 Warszawa). Podanie danych jest dobrowolne, ale bez danych kontaktowych nie odpowiemy na wiadomość.</p>
-      <h2>Pliki cookie i&nbsp;usługi zewnętrzne</h2>
-      <p>Strona nie używa plików cookie do statystyk ani reklam i&nbsp;nie śledzi odwiedzających. Czcionki są wczytywane z&nbsp;naszego serwera. Mapa Google na stronie kontaktowej wczytuje się dopiero po kliknięciu przycisku "Pokaż mapę" - wtedy Google może zapisać swoje pliki cookie zgodnie z <a href="https://policies.google.com/privacy?hl=pl" rel="noopener" target="_blank">polityką prywatności Google</a>. Link do profilu na Facebooku prowadzi do serwisu Meta, który stosuje własne zasady.</p>
+      <h2 id="cookies">Pliki cookie i&nbsp;usługi zewnętrzne</h2>
+      <p>Strona nie używa plików cookie do statystyk ani reklam i&nbsp;nie śledzi odwiedzających. Czcionki są wczytywane z&nbsp;naszego serwera.</p>
+      <p><b>Niezbędne:</b> w&nbsp;pamięci przeglądarki (localStorage) zapisujemy Twój wybór dotyczący cookies, na 12 miesięcy. Bez tego baner pokazywałby się przy każdej wizycie.</p>
+      <p><b>Mapy Google:</b> na stronie głównej i&nbsp;kontaktowej jest osadzona mapa Google. Podczas jej wyświetlania Google LLC może zapisywać własne pliki cookie i&nbsp;otrzymuje adres IP przeglądarki, zgodnie z <a href="https://policies.google.com/privacy?hl=pl" rel="noopener" target="_blank">polityką prywatności Google</a>. Jeśli wybierzesz "Tylko niezbędne", zamiast mapy pokażemy adres i&nbsp;link do wyznaczenia trasy.</p>
+      <p>Swój wybór możesz zmienić w&nbsp;każdej chwili przyciskiem "Ustawienia cookies" w&nbsp;stopce strony. Link do profilu na Facebooku prowadzi do serwisu Meta, który stosuje własne zasady.</p>
       <p class="drobny">Ostatnia aktualizacja: 5 listopada 2026 r.</p>
     </div>
   </div>
@@ -81,7 +84,7 @@
     </div>
     <div>
       <h2>Biuro</h2>
-      <ul><li><a href="../jak-pracujemy/">Jak pracujemy</a></li><li><a href="../o-biurze/">O&nbsp;biurze</a></li><li><a href="../kontakt/">Kontakt i&nbsp;dojazd</a></li><li><a href="https://www.facebook.com/profile.php?id=100063471177071" rel="noopener" target="_blank">Facebook</a></li><li><a href="../polityka-prywatnosci/">Polityka prywatności</a></li></ul>
+      <ul><li><a href="../jak-pracujemy/">Jak pracujemy</a></li><li><a href="../o-biurze/">O&nbsp;biurze</a></li><li><a href="../kontakt/">Kontakt i&nbsp;dojazd</a></li><li><a href="https://www.facebook.com/profile.php?id=100063471177071" rel="noopener" target="_blank">Facebook</a></li><li><a href="../polityka-prywatnosci/">Polityka prywatności</a></li><li><button type="button" class="st-ck" data-ck-otworz>Ustawienia cookies</button></li></ul>
     </div>
   </div>
   <div class="wrap stopka-dol">
@@ -93,6 +96,15 @@
   <a class="mob-tel" href="tel:+48566912080" tabindex="-1">Zadzwoń</a>
   <a class="mob-cta" href="../kontakt/#formularz" tabindex="-1">Bezpłatna wycena</a>
 </div>
-<script src="../assets/js/site.js?v=3" defer></script>
+<div class="ck" id="ck" hidden role="dialog" aria-label="Ustawienia plików cookies">
+  <p class="ck-t">Strona używa plików cookies niezbędnych do działania i&nbsp;zapamiętania Twojego wyboru. Osadzona mapa Google może zapisywać własne pliki cookies. <a href="../polityka-prywatnosci/#cookies">Polityka prywatności</a></p>
+  <div class="ck-ust" hidden>
+    <label><input type="checkbox" checked disabled> <span><b>Niezbędne</b> - zapamiętanie wyboru, zawsze włączone</span></label>
+    <label><input type="checkbox" data-ck-kat="mapy" checked> <span><b>Mapy Google</b> - mapa dojazdu do biura</span></label>
+  </div>
+  <div class="ck-btn"><button type="button" class="ck-b ck-ustaw" data-ck="ustawienia">Ustawienia</button><button type="button" class="ck-b" data-ck="niezbedne">Tylko niezbędne</button><button type="button" class="ck-b ck-ok" data-ck="wszystkie">Akceptuję wszystkie</button></div>
+</div>
+<script src="../assets/js/site.js?v=5" defer></script>
+<script src="../assets/js/ck.js?v=5" defer></script>
 </body>
 </html>

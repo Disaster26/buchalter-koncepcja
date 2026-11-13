@@ -9,7 +9,9 @@ ROOT = Path(__file__).resolve().parent.parent
 PROD = "https://buchalter.cloud/"      # docelowy adres (do potwierdzenia przez klientkę)
 KIER = os.environ.get("KIERUNEK", "")   # prototypy kierunkow: a / b / c
 TEST = True                            # wersja testowa: noindex + robots Disallow
-DZIS = "2026-11-12"
+DZIS = "2026-11-13"
+import datetime as _dt
+ROK = _dt.date.today().year
 BADGE = (Path(__file__).parent / "badge.html").read_text(encoding="utf-8").strip()
 
 TEL = "56 691 20 80"; TEL_H = "+48566912080"
@@ -18,11 +20,12 @@ MAIL = "recepcja@buchalter.home.pl"; MAIL_K = "kadry@buchalter.home.pl"
 FB = "https://www.facebook.com/profile.php?id=100063471177071"
 TRASA = "https://www.google.com/maps/dir/?api=1&amp;destination=Rybacka+3%2C+86-200+Che%C5%82mno"
 OPINIE = "https://www.google.com/maps/search/?api=1&amp;query=Biuro+Rachunkowe+Buchalter+Rybacka+3+Che%C5%82mno"
-MAPA = f'''<div class="mapa" id="mapa">
-      <div class="mapa-zaslona">
+MAPA = f'''<div class="mapa" id="mapa" data-gmapa>
+      <iframe src="https://maps.google.com/maps?q=Rybacka%203%2C%2086-200%20Che%C5%82mno&amp;z=16&amp;output=embed" title="Mapa Google - ul. Rybacka 3, Chełmno" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+      <div class="mapa-zaslona mapa-zast" hidden>
         <svg class="ik" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M16 28s-8.5-8.2-8.5-14.5a8.5 8.5 0 0 1 17 0C24.5 19.8 16 28 16 28z"/><circle cx="16" cy="13.5" r="3"/></svg>
-        <p><b>ul. Rybacka 3, 86-200 Chełmno</b>Mapa Google wczyta się po kliknięciu, razem z&nbsp;plikami cookie Google.</p>
-        <div class="mapa-akcje"><button class="btn-out" type="button" id="mapaPokaz">Pokaż mapę</button><a class="link-strz" href="{TRASA}" target="_blank" rel="noopener">Wyznacz trasę</a></div>
+        <p><b>ul. Rybacka 3, 86-200 Chełmno</b>Mapa Google jest wyłączona w&nbsp;ustawieniach cookies.</p>
+        <div class="mapa-akcje"><a class="btn-out" href="{TRASA}" target="_blank" rel="noopener">Wyznacz trasę</a><button class="link-strz st-ck" type="button" data-ck-otworz>Ustawienia cookies</button></div>
       </div>
     </div>'''
 
@@ -94,11 +97,11 @@ def stopka():
     </div>
     <div>
       <h2>Biuro</h2>
-      <ul><li><a href="{{R}}jak-pracujemy/">Jak pracujemy</a></li><li><a href="{{R}}o-biurze/">O biurze</a></li><li><a href="{{R}}kontakt/">Kontakt i dojazd</a></li><li><a href="{FB}" rel="noopener" target="_blank">Facebook</a></li><li><a href="{{R}}polityka-prywatnosci/">Polityka prywatności</a></li></ul>
+      <ul><li><a href="{{R}}jak-pracujemy/">Jak pracujemy</a></li><li><a href="{{R}}o-biurze/">O biurze</a></li><li><a href="{{R}}kontakt/">Kontakt i dojazd</a></li><li><a href="{FB}" rel="noopener" target="_blank">Facebook</a></li><li><a href="{{R}}polityka-prywatnosci/">Polityka prywatności</a></li><li><button type="button" class="st-ck" data-ck-otworz>Ustawienia cookies</button></li></ul>
     </div>
   </div>
   <div class="wrap stopka-dol">
-    <span>&copy; 2026 Biuro Rachunkowe Buchalter. Wersja testowa nowej strony. Zdjęcia poglądowe: Vitaly Gariev, <a href="https://unsplash.com/photos/M5k978V3qBc" rel="noopener" target="_blank">Unsplash</a> (licencja Unsplash).</span>
+    <span>&copy; {ROK} Biuro Rachunkowe Buchalter. Wersja testowa nowej strony. Zdjęcia poglądowe: Vitaly Gariev, <a href="https://unsplash.com/photos/M5k978V3qBc" rel="noopener" target="_blank">Unsplash</a> (licencja Unsplash).</span>
     {BADGE}
   </div>
 </footer>'''
@@ -167,7 +170,16 @@ def strona(path, title, desc, body, akt="", okruszki=None, schema_extra=None, ho
   <a class="mob-tel" href="tel:{TEL_H}" tabindex="-1">Zadzwoń</a>
   <a class="mob-cta" href="{{R}}kontakt/#formularz" tabindex="-1">Bezpłatna wycena</a>
 </div>
-<script src="{{R}}assets/js/site.js?v=3" defer></script>
+<div class="ck" id="ck" hidden role="dialog" aria-label="Ustawienia plików cookies">
+  <p class="ck-t">Strona używa plików cookies niezbędnych do działania i&nbsp;zapamiętania Twojego wyboru. Osadzona mapa Google może zapisywać własne pliki cookies. <a href="{{R}}polityka-prywatnosci/#cookies">Polityka prywatności</a></p>
+  <div class="ck-ust" hidden>
+    <label><input type="checkbox" checked disabled> <span><b>Niezbędne</b> - zapamiętanie wyboru, zawsze włączone</span></label>
+    <label><input type="checkbox" data-ck-kat="mapy" checked> <span><b>Mapy Google</b> - mapa dojazdu do biura</span></label>
+  </div>
+  <div class="ck-btn"><button type="button" class="ck-b ck-ustaw" data-ck="ustawienia">Ustawienia</button><button type="button" class="ck-b" data-ck="niezbedne">Tylko niezbędne</button><button type="button" class="ck-b ck-ok" data-ck="wszystkie">Akceptuję wszystkie</button></div>
+</div>
+<script src="{{R}}assets/js/site.js?v=5" defer></script>
+<script src="{{R}}assets/js/ck.js?v=5" defer></script>
 </body>
 </html>
 '''
@@ -737,8 +749,11 @@ pp = glowa("Polityka prywatności",
       <p>Dane mogą być przetwarzane przez dostawców usług, z których korzystamy przy prowadzeniu strony i poczty (hosting i poczta e-mail), wyłącznie na nasze zlecenie. Nie sprzedajemy danych i nie przekazujemy ich do państw spoza Europejskiego Obszaru Gospodarczego.</p>
       <h2>Twoje prawa</h2>
       <p>Masz prawo do dostępu do swoich danych, ich sprostowania, usunięcia lub ograniczenia przetwarzania, wniesienia sprzeciwu oraz przenoszenia danych. Masz też prawo wnieść skargę do Prezesa Urzędu Ochrony Danych Osobowych (ul. Stawki 2, 00-193 Warszawa). Podanie danych jest dobrowolne, ale bez danych kontaktowych nie odpowiemy na wiadomość.</p>
-      <h2>Pliki cookie i usługi zewnętrzne</h2>
-      <p>Strona nie używa plików cookie do statystyk ani reklam i nie śledzi odwiedzających. Czcionki są wczytywane z naszego serwera. Mapa Google na stronie kontaktowej wczytuje się dopiero po kliknięciu przycisku "Pokaż mapę" - wtedy Google może zapisać swoje pliki cookie zgodnie z <a href="https://policies.google.com/privacy?hl=pl" rel="noopener" target="_blank">polityką prywatności Google</a>. Link do profilu na Facebooku prowadzi do serwisu Meta, który stosuje własne zasady.</p>
+      <h2 id="cookies">Pliki cookie i usługi zewnętrzne</h2>
+      <p>Strona nie używa plików cookie do statystyk ani reklam i nie śledzi odwiedzających. Czcionki są wczytywane z naszego serwera.</p>
+      <p><b>Niezbędne:</b> w pamięci przeglądarki (localStorage) zapisujemy Twój wybór dotyczący cookies, na 12 miesięcy. Bez tego baner pokazywałby się przy każdej wizycie.</p>
+      <p><b>Mapy Google:</b> na stronie głównej i kontaktowej jest osadzona mapa Google. Podczas jej wyświetlania Google LLC może zapisywać własne pliki cookie i otrzymuje adres IP przeglądarki, zgodnie z <a href="https://policies.google.com/privacy?hl=pl" rel="noopener" target="_blank">polityką prywatności Google</a>. Jeśli wybierzesz "Tylko niezbędne", zamiast mapy pokażemy adres i link do wyznaczenia trasy.</p>
+      <p>Swój wybór możesz zmienić w każdej chwili przyciskiem "Ustawienia cookies" w stopce strony. Link do profilu na Facebooku prowadzi do serwisu Meta, który stosuje własne zasady.</p>
       <p class="drobny">Ostatnia aktualizacja: 5 listopada 2026 r.</p>
     </div>
   </div>
