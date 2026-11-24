@@ -767,7 +767,7 @@ e404 = '''<section class="glowa-strony" style="min-height:60svh;display:flex;ali
   <div class="wrap">
     <h1>Nie ma takiej strony</h1>
     <p class="lead">Adres mógł się zmienić po przebudowie strony. Wybierz, czego szukasz:</p>
-    <p style="margin-top:24px;display:flex;gap:16px 28px;flex-wrap:wrap"><a class="btn" href="https://disaster26.github.io/buchalter-koncepcja/">Strona główna</a><a class="link-strz" href="https://disaster26.github.io/buchalter-koncepcja/oferta/">Oferta</a><a class="link-strz" href="https://disaster26.github.io/buchalter-koncepcja/cennik/">Cennik</a><a class="link-strz" href="https://disaster26.github.io/buchalter-koncepcja/kontakt/">Kontakt</a></p>
+    <p style="margin-top:24px;display:flex;gap:16px 28px;flex-wrap:wrap"><a class="btn" href="https://wylinka-podglad.pl/buchalter-koncepcja/">Strona główna</a><a class="link-strz" href="https://wylinka-podglad.pl/buchalter-koncepcja/oferta/">Oferta</a><a class="link-strz" href="https://wylinka-podglad.pl/buchalter-koncepcja/cennik/">Cennik</a><a class="link-strz" href="https://wylinka-podglad.pl/buchalter-koncepcja/kontakt/">Kontakt</a></p>
   </div>
 </section>'''
 strona("404.html", "Nie ma takiej strony | Buchalter", "Strona nie istnieje.", e404)
